@@ -1,0 +1,81 @@
+.consoleContainer {
+	position: relative;
+	background-color: #f6f6f6;
+	width: 400px;
+
+	.chatLogContainer {
+		display: flex;
+		flex-direction: column-reverse;
+		margin: 0 auto;
+		padding: 0 10px;
+		overflow-y: scroll;
+		height: 95vh;
+
+		.log {
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			padding: 15px 20px;
+			margin-bottom: 10px;
+		}
+	}
+
+	.formContainer {
+		position: absolute;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.1);
+		background: #f6f6f6;
+		padding: 0 10px;
+
+		.form {
+			position: relative;
+			width: 100%;
+
+			.promptText {
+				width: 100%;
+				padding: 10px;
+				margin: 10px 0;
+				background-color: #fff;
+				border: 1px solid #ccc;
+				border-radius: 0.5rem;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+				transition: border-color 0.2s ease-in-out;
+				font-family: Helvetica, sans-serif;
+				box-sizing: border-box;
+
+				&:active,
+				&:focus {
+					outline: none;
+					box-shadow: 0 0 0 0.2rem rgba(77, 161, 255, 0.25);
+				}
+			}
+
+			.button {
+				position: absolute;
+				right: 15px;
+				bottom: 15px;
+				background-color: #fff;
+				border: none;
+				border-radius: 5px;
+				color: #fff;
+				cursor: pointer;
+				transition: all 0.2s ease-in-out;
+
+				&:hover {
+					background-color: darken(#fff, 10%);
+				}
+
+				&:active {
+					background-color: darken(#fff, 20%);
+				}
+
+				&:disabled {
+					background-color: #ccc;
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+}

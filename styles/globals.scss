@@ -1,3 +1,14 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: #2d2d2d;
+	font-family: Helvetica, sans-serif;
+}
+
 main {
-  display: flex;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100vw;
+	height: 100vh;
 }

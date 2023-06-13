@@ -1,5 +1,10 @@
 {
   "extends": "./node_modules/monkey-labs-config/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    },
+  },
   "include": ["./**/*.ts", "./**/*.tsx"],
   "exclude": ["node_modules"]
 }
