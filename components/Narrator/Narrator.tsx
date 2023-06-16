@@ -1,44 +1,62 @@
 import { useEffect, useState } from 'react';
+import cx from 'classnames';
+
 import styles from './Narrator.module.scss';
 import { useAppStore } from '@/stores/AppStore';
+import { synthesizeSpeech } from '@/utilities/server';
 
 export default function Narrator() {
-	const { narratorList } = useAppStore();
+	const { narrating, narratorList, setNarratorList, setNarrating } =
+		useAppStore();
 	const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
-	const [fade, setFade] = useState(false);
+	const [fadeNarration, setFadeNarration] = useState(false);
 
 	useEffect(() => {
 		setCurrentSentenceIndex(0);
 	}, [narratorList]);
 
 	useEffect(() => {
-		if (
-			narratorList &&
-			narratorList.length > 0 &&
-			currentSentenceIndex < narratorList.length
-		) {
-			setFade(false);
-			const utterance = new SpeechSynthesisUtterance(
-				narratorList[currentSentenceIndex],
-			);
-			utterance.onend = () => {
-				setFade(true);
+		(async () => {
+			if (narratorList && narratorList.length > 0) {
+				if (currentSentenceIndex < narratorList.length) {
+					setNarrating(true);
+					setFadeNarration(false);
 
-				setTimeout(() => {
-					setCurrentSentenceIndex((prevIndex) => prevIndex + 1);
-				}, 500);
-			};
+					const blob = await synthesizeSpeech({
+						text: narratorList[currentSentenceIndex],
+					});
 
-			window.speechSynthesis.speak(utterance);
-		}
+					const url = URL.createObjectURL(blob);
+
+					const audio = new Audio(url);
+
+					audio.onended = () => {
+						setFadeNarration(true);
+
+						setTimeout(() => {
+							setCurrentSentenceIndex((prevIndex) => prevIndex + 1);
+						}, 200);
+					};
+
+					audio.play();
+				} else {
+					setNarratorList('');
+					setNarrating(false);
+				}
+			}
+		})();
 	}, [narratorList, currentSentenceIndex]);
 
 	return (
-		<div className={styles.narratorContainer}>
+		<div
+			className={cx(styles.narratorContainer, { [styles.faded]: !narrating })}
+		>
 			{narratorList && narratorList.length > 0 && (
 				<div
 					className={`${styles.narration} ${
-						fade ? styles['narration--faded'] : styles['narration--visible']
+						fadeNarration
+							? styles['narration--faded']
+							: styles['narration--visible']
 					}`}
 				>
 					{narratorList[currentSentenceIndex]}

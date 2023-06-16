@@ -6,12 +6,28 @@
 	overflow: hidden;
 	position: relative;
 	margin: 30px;
-}
 
-.stage {
-	position: absolute;
-	width: 100%;
-	overflow: hidden;
-	padding-top: 56.25%; /* 9/16 = 0.5625 */
-	background-color: #000;
+	.stage {
+		position: absolute;
+		width: 100%;
+		overflow: hidden;
+		padding-top: 56.25%; /* 9/16 = 0.5625 */
+		background-color: #000;
+
+		.background {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background-position: center;
+			background-size: cover;
+			transition: opacity 1s ease-in-out;
+			opacity: 1;
+
+			&.fade {
+				opacity: 0;
+			}
+		}
+	}
 }

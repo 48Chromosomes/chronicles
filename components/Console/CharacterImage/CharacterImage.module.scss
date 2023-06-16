@@ -1,27 +1,64 @@
-.consoleContainer {
-	position: relative;
-	background-color: #f6f6f6;
-	width: 400px;
-	overflow: hidden;
+.characterImageContainer {
+	position: absolute;
+	top: -100vh;
+	left: 0;
+	right: 0;
+	height: 102vh;
+	z-index: 999999;
+	background: #2d2d2d;
+	transition: top 0.3s ease-in-out;
+	transition-delay: 1000;
 
-	.chatLogContainer {
-		display: flex;
-		flex-direction: column-reverse;
-		margin: 0 auto;
-		padding: 0 10px;
-		overflow-y: scroll;
-		height: 95vh;
+	&:hover {
+		top: 0;
+	}
 
-		.log {
-			background-color: #fff;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			padding: 15px 20px;
-			margin-bottom: 10px;
+	.characterImage {
+		position: absolute;
+		bottom: 9.5vh;
+		width: 100%;
+	}
+
+	.arrow {
+		position: absolute;
+		bottom: 0;
+		right: calc(50% - 15px);
+		width: 30px;
+	}
+
+	.characterSheet {
+		padding: 10px 30px;
+		color: white;
+
+		p {
+			font-size: 14px;
+			margin: 5px 0;
+
+			span {
+				float: right;
+			}
 		}
 
-		.loader {
-			margin: 0 auto;
+		.stats {
+			margin: 40px 0 20px;
+		}
+
+		.listContainer {
+			display: flex;
+			flex-direction: row;
+
+			ul {
+				list-style-image: url('/images/sword.png');
+				margin-left: -20px;
+			}
+
+			h3 {
+				font-size: 16px;
+			}
+
+			.list {
+				width: 50%;
+			}
 		}
 	}
 
@@ -29,9 +66,7 @@
 		position: absolute;
 		right: 0;
 		left: 0;
-		bottom: 0;
-		box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.1);
-		background: #f6f6f6;
+		bottom: 2vh;
 		padding: 0 10px;
 
 		.form {

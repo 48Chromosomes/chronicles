@@ -1,23 +1,123 @@
-export const url = process.env.NEXT_PUBLIC_APP_URL;
+import {
+	FetchParams,
+	BeginGameParams,
+	StoryPromptParams,
+	GetImageParams,
+} from '@/types/server';
+import { useAppStore } from '@/stores/AppStore';
 
-type FetchParams = {
-	endpoint: string;
-	method: 'GET' | 'POST';
-	body?: any;
+const url = process.env.NEXT_PUBLIC_APP_URL;
+
+const api = async ({ endpoint, method, body }: FetchParams) => {
+	try {
+		const response: Response = await fetch(`${url}${endpoint}`, {
+			method,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(body),
+		});
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		const data = await response.json();
+
+		return typeof data === 'object' ? data : JSON.parse(data);
+	} catch (error) {
+		console.warn(
+			`An error occurred while making an API call to ${endpoint}: ${error}`,
+		);
+		return null;
+	}
 };
 
-export const api = async ({ endpoint, method, body }: FetchParams) => {
-	const response: Response = await fetch(`${url}${endpoint}`, {
-		method,
+export const beginGameRequest = async ({
+	prompt,
+	chatLogs,
+	character,
+}: BeginGameParams) => {
+	const response = await api({
+		endpoint: '/chronicles/prompt',
+		method: 'POST',
+		body: {
+			prompt,
+			chatLogs,
+			character,
+		},
+	});
+
+	return response;
+};
+
+export const getCharacterRequest = async () => {
+	const response = await api({
+		endpoint: '/chronicles/character',
+		method: 'GET',
+	});
+
+	return response;
+};
+
+export const getCharacterImage = async ({ prompt }: GetImageParams) => {
+	const image = await api({
+		endpoint: '/chronicles/image',
+		method: 'POST',
+		body: {
+			prompt,
+			width: 768,
+			height: 1024,
+		},
+	});
+
+	return image.url;
+};
+
+export const storyPromptRequest = async ({
+	prompt,
+	chatLogs,
+	character,
+}: StoryPromptParams) => {
+	const response = await api({
+		endpoint: '/chronicles/prompt',
+		method: 'POST',
+		body: {
+			prompt,
+			chatLogs,
+			character,
+		},
+	});
+
+	return response;
+};
+
+export const getBackgroundImage = async ({ prompt }: GetImageParams) => {
+	const image = await api({
+		endpoint: '/chronicles/image',
+		method: 'POST',
+		body: {
+			prompt,
+			width: 1024,
+			height: 768,
+		},
+	});
+
+	return image.url;
+};
+
+export const synthesizeSpeech = async ({ text }: { text: string }) => {
+	const response: Response = await fetch(`${url}/chronicles/synthesize`, {
+		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(body),
+		body: JSON.stringify({
+			text,
+		}),
 	});
 
-	const data = await response.json();
+	const audio = await response.blob();
 
-	console.log(JSON.parse(data));
-
-	return JSON.parse(data);
+	return audio;
 };

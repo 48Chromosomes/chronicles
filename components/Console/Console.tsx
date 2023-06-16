@@ -3,12 +3,13 @@ import Image from 'next/image';
 
 import styles from './Console.module.scss';
 
+import CharacterImage from './CharacterImage/CharacterImage';
+
 import { useAppStore } from '@/stores/AppStore';
-import { api } from '@/utilities/server';
 import { ChatLog } from '@/types';
 
 export default function Console() {
-	const { character, chatLogs, setChatLogs } = useAppStore();
+	const { character, chatLogs, setChatLogs, sendStoryPrompt } = useAppStore();
 	const messageListRef = useRef<HTMLDivElement>(null);
 	const textInputRef = useRef<HTMLInputElement>(null);
 	const formRef = useRef<HTMLFormElement>(null);
@@ -27,22 +28,13 @@ export default function Console() {
 		if (prompt.length === 0) return;
 
 		setLoading(true);
+
 		setQuery('');
 
-		setChatLogs({ role: 'user', content: prompt });
+		setChatLogs({ role: 'user', content: { story: prompt } });
 
 		try {
-			const response: ChatLog = await api({
-				endpoint: '/chronicles/prompt',
-				method: 'POST',
-				body: {
-					prompt,
-					chatLogs,
-					character,
-				},
-			});
-
-			setChatLogs(response);
+			await sendStoryPrompt({ prompt });
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -56,16 +48,9 @@ export default function Console() {
 	return (
 		<>
 			<div className={styles.consoleContainer}>
-				<div className={styles.chatLogContainer} ref={messageListRef}>
-					{chatLogs &&
-						[...chatLogs].reverse().map((log: ChatLog, index: number) => (
-							<div key={index} className={styles.log}>
-								{typeof log.content === 'object'
-									? log.content.story
-									: log.content}
-							</div>
-						))}
+				{character && <CharacterImage />}
 
+				<div className={styles.chatLogContainer} ref={messageListRef}>
 					{loading && (
 						<Image
 							className={styles.loader}
@@ -75,10 +60,22 @@ export default function Console() {
 							height={50}
 						/>
 					)}
+
+					{chatLogs &&
+						[...chatLogs].reverse().map((log: ChatLog, index: number) => (
+							<div key={index} className={styles.log}>
+								{log.content.story}
+							</div>
+						))}
 				</div>
 
 				<div className={styles.formContainer}>
-					<form className={styles.form} onSubmit={onSubmit} ref={formRef}>
+					<form
+						className={styles.form}
+						onSubmit={onSubmit}
+						ref={formRef}
+						autoComplete="off"
+					>
 						<input
 							ref={textInputRef}
 							type="text"

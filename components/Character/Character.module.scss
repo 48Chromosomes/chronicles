@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comme:wght@500&display=swap');
+
+.characterContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 3;
+	font-family: 'Heebo', sans-serif;
+	transition: opacity 0.5s ease-in-out;
+	opacity: 1;
+
+	&.faded {
+		opacity: 0;
+	}
+
+	.characterSheet {
+		background: rgba(0, 0, 0, 0.6);
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 30%;
+		color: rgb(229, 229, 229);
+		padding: 10px 30px;
+
+		h2 {
+			font-family: 'Comme', sans-serif;
+		}
+
+		p {
+			font-size: 12px;
+			margin: 0;
+
+			span {
+				float: right;
+			}
+		}
+
+		.stats {
+			margin: 30px 0 10px;
+		}
+
+		.listContainer {
+			display: flex;
+			flex-direction: row;
+
+			ul {
+				list-style-image: url('/images/sword.png');
+				margin: 5px 0 0 -20px;
+			}
+
+			h3 {
+				font-size: 14px;
+				margin: 20px 0 0;
+			}
+
+			.list {
+				width: 50%;
+			}
+		}
+	}
+
+	.characterImage {
+		position: absolute;
+		right: 40px;
+		bottom: 0;
+		width: 40%;
+	}
+}
