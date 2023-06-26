@@ -1,3 +1,5 @@
+import React from 'react';
+import Head from 'next/head';
 import dynamic from 'next/dynamic';
 
 const Stage = dynamic(() => import('@/components/Stage/Stage'), { ssr: false });
@@ -10,10 +12,16 @@ const Actions = dynamic(() => import('@/components/Actions/Actions'), {
 
 export default function Home() {
 	return (
-		<main>
-			<Stage />
-			<Actions />
-			<Console />
-		</main>
+		<>
+			<Head>
+				<title>Monkey Labs - Stage</title>
+			</Head>
+
+			<main>
+				<Stage />
+				<Actions />
+				<Console />
+			</main>
+		</>
 	);
 }

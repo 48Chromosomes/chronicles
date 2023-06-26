@@ -9,12 +9,12 @@ import { useAppStore } from '@/stores/AppStore';
 import { ChatLog } from '@/types';
 
 export default function Console() {
-	const { character, chatLogs, setChatLogs, sendStoryPrompt } = useAppStore();
+	const { character, chatLogs, setChatLogs, sendStoryPrompt, waiting } =
+		useAppStore();
 	const messageListRef = useRef<HTMLDivElement>(null);
 	const textInputRef = useRef<HTMLInputElement>(null);
 	const formRef = useRef<HTMLFormElement>(null);
 	const [query, setQuery] = useState<string>('');
-	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		textInputRef.current?.focus();
@@ -27,17 +27,13 @@ export default function Console() {
 
 		if (prompt.length === 0) return;
 
-		setLoading(true);
-
 		setQuery('');
 
 		setChatLogs({ role: 'user', content: { story: prompt } });
 
 		try {
 			await sendStoryPrompt({ prompt });
-			setLoading(false);
 		} catch (error) {
-			setLoading(false);
 			console.log('error', error);
 		}
 	};
@@ -51,7 +47,7 @@ export default function Console() {
 				{character && <CharacterImage />}
 
 				<div className={styles.chatLogContainer} ref={messageListRef}>
-					{loading && (
+					{waiting && (
 						<Image
 							className={styles.loader}
 							src="/images/ellipsis.gif"
@@ -63,8 +59,12 @@ export default function Console() {
 
 					{chatLogs &&
 						[...chatLogs].reverse().map((log: ChatLog, index: number) => (
-							<div key={index} className={styles.log}>
-								{log.content.story}
+							<div key={index}>
+								<div className={styles.log}>{log.content?.story}</div>
+
+								{log.content?.roll_dice && (
+									<div className={styles.roll}>Dice roll required</div>
+								)}
 							</div>
 						))}
 				</div>

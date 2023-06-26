@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import styles from './Waiting.module.scss';

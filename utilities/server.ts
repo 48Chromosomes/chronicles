@@ -121,3 +121,23 @@ export const synthesizeSpeech = async ({ text }: { text: string }) => {
 
 	return audio;
 };
+
+export const getLiveChats = async () => {
+	const response = await api({
+		endpoint: '/chronicles/livechat',
+		method: 'GET',
+	});
+
+	return response.messages;
+};
+
+export async function sendStreamToServer(formData: FormData) {
+	try {
+		await fetch('http://localhost:3000/stream', {
+			method: 'POST',
+			body: formData,
+		});
+	} catch (err) {
+		console.error('Error: ' + err);
+	}
+}

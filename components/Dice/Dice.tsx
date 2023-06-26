@@ -7,15 +7,14 @@ import styles from './Dice.module.scss';
 import { useAppStore } from '@/stores/AppStore';
 
 function DiceComponent() {
-	const { roll, rollDice, setNarratorList } = useAppStore();
+	const { roll, rollDice, setNarratorList, sendStoryPrompt, setChatLogs } =
+		useAppStore();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [box, setBox] = useState<any>(null);
 	const appDivRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		console.log('no roll');
 		if (roll) {
-			console.log('roll');
 			const removeExtraCanvas = () => {
 				const { current: appDiv } = appDivRef;
 
@@ -44,11 +43,8 @@ function DiceComponent() {
 						gravity_multiplier: 600,
 						baseScale: 100,
 						strength: 3,
-						onRollComplete: (results: any) => {
-							rollDice(false);
-							console.log(`Dice rolled: `, results);
-							setTimeout(() => setVisible(false), 10000);
-						},
+						onRollComplete: (results: any) =>
+							console.log(`Rolled ${results.total}`),
 					});
 
 					await Box.initialize();
@@ -67,7 +63,16 @@ function DiceComponent() {
 					box.roll(`1d20@${randomNumber}`).then(() => {
 						setNarratorList(`You rolled ${randomNumber}`);
 					});
+
+					const prompt = `I rolled ${randomNumber}`;
+
+					setChatLogs({ role: 'user', content: { story: prompt } });
+
+					sendStoryPrompt({ prompt: `I rolled ${randomNumber}` });
 				}
+
+				rollDice(false);
+				setTimeout(() => setVisible(false), 6000);
 			})();
 		}
 	}, [roll]);

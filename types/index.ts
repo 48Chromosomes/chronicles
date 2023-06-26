@@ -5,11 +5,18 @@ export type AppStoreInterface = (
 	background: string;
 	chatLogs: ChatLog[];
 	character: any;
+	countdown: boolean;
 	characterImage: string;
 	roll: boolean;
 	narratorList: string[];
 	narrating: boolean;
 	waiting: boolean;
+	playMusic: boolean;
+	stageDimensions: StageDimensions;
+	liveChats: any[];
+	streamId: string;
+	setCountdown: (countdown: boolean) => void;
+	toggleMusic: () => void;
 	setWaiting: (waiting: boolean) => void;
 	resetChat: () => void;
 	resetCharacter: () => void;
@@ -23,6 +30,9 @@ export type AppStoreInterface = (
 	sendStoryPrompt: ({ prompt }: { prompt: string }) => void;
 	sendBackgroundImagePrompt: ({ prompt }: { prompt: string }) => void;
 	rollDice: (shouldRoll: boolean) => void;
+	setStageDimensions: (dimensions: StageDimensions) => void;
+	updateLiveChats: () => void;
+	setStreamId: (streamId: string) => void;
 };
 
 export interface Character {
@@ -54,4 +64,18 @@ export interface StorySegment {
 export interface ChatLog {
 	role: 'user' | 'assistant';
 	content: StorySegment;
+}
+
+export interface LiveChat {
+	message: string;
+	username: string;
+	timestamp: string;
+	includesTaggedUser: boolean;
+}
+
+export interface StageDimensions {
+	width?: number;
+	height?: number;
+	offsetX?: number;
+	offsetY?: number;
 }

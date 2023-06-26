@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { ChatLog, AppStoreInterface } from '@/types';
+import { ChatLog, AppStoreInterface, StageDimensions } from '@/types';
 import { buildNarratorList } from '@/utilities/narration';
 import {
 	beginGameRequest,
@@ -9,6 +9,7 @@ import {
 	getBackgroundImage,
 	getCharacterImage,
 	getCharacterRequest,
+	getLiveChats,
 } from '@/utilities/server';
 
 export const AppStore: AppStoreInterface = (
@@ -23,16 +24,33 @@ export const AppStore: AppStoreInterface = (
 	narrating: false,
 	narratorList: [],
 	waiting: false,
+	playMusic: false,
+	countdown: false,
+	stageDimensions: {},
+	liveChats: [],
+	streamId: '',
+	toggleMusic: () => {
+		const { playMusic } = get();
+		set({ playMusic: !playMusic });
+	},
 	setWaiting: (waiting: boolean) => {
 		set({ waiting });
+	},
+	setCountdown: (countdown: boolean) => {
+		set({ countdown });
 	},
 	resetChat: () =>
 		set({
 			chatLogs: [],
+			roll: false,
+			narrating: false,
+			narratorList: [],
+			waiting: false,
 		}),
 	resetCharacter: () =>
 		set({
 			character: null,
+			characterImage: '',
 		}),
 	setChatLogs: ({ role, content }: ChatLog) => {
 		set((state: any) => ({
@@ -42,12 +60,16 @@ export const AppStore: AppStoreInterface = (
 	setCharacter: (character: any) => {
 		set({ character });
 	},
-	setNarratorList: (text: string) => {
+	setNarratorList: async (text: string) => {
+		const { narrationEnd } = get();
+
+		await narrationEnd();
+
 		const narratorList = buildNarratorList(text);
 		set({ narratorList });
 	},
 	setNarrating: (narrating: boolean) => {
-		set({ narrating });
+		set({ narrating, ...(narrating ? {} : { narratorList: [] }) });
 	},
 	sendBeginGamePrompt: async () => {
 		const {
@@ -57,9 +79,12 @@ export const AppStore: AppStoreInterface = (
 			setChatLogs,
 			setNarratorList,
 			sendBackgroundImagePrompt,
+			toggleMusic,
 		} = get();
 
-		setTimeout(() => setNarratorList('Let us begin..'), 2000);
+		setNarratorList('Let us begin..');
+
+		toggleMusic();
 
 		setWaiting(true);
 
@@ -118,9 +143,10 @@ export const AppStore: AppStoreInterface = (
 			setChatLogs,
 			sendBackgroundImagePrompt,
 			setNarratorList,
+			rollDice,
+			narrationEnd,
+			setCountdown,
 		} = get();
-
-		setTimeout(() => setNarratorList(`You choose to ${prompt}`), 2000);
 
 		setWaiting(true);
 
@@ -135,31 +161,23 @@ export const AppStore: AppStoreInterface = (
 				'WARNING: Error occurred fetching response: ',
 				response.error,
 			);
-		} else if (typeof response !== 'object') {
-			console.warn('WARNING: Response was not an object: ', response.error);
-
-			setChatLogs({
-				role: 'assistant',
-				content: {
-					story: response,
-					visual_description: '',
-					roll_dice: false,
-					story_end: false,
-				},
-			});
-
-			setNarratorList(response);
 		} else {
 			setChatLogs({ role: 'assistant', content: response });
+
+			setWaiting(false);
 
 			sendBackgroundImagePrompt({ prompt: response.visual_description });
 
 			setNarratorList(response.story);
+
+			await narrationEnd();
+
+			if (response.roll_dice) {
+				rollDice(true);
+			} else {
+				setCountdown(true);
+			}
 		}
-
-		setWaiting(false);
-
-		// Trigger dice roll
 	},
 	sendBackgroundImagePrompt: async ({ prompt }: { prompt: string }) => {
 		const background = await getBackgroundImage({ prompt });
@@ -167,6 +185,28 @@ export const AppStore: AppStoreInterface = (
 	},
 	rollDice: (shouldRoll: boolean) => {
 		set({ roll: shouldRoll });
+	},
+	narrationEnd: async () => {
+		await new Promise((resolve) => {
+			const interval = setInterval(() => {
+				const { narrating } = get();
+
+				if (!narrating) {
+					resolve(true);
+					clearInterval(interval);
+				}
+			}, 3000);
+		});
+	},
+	setStageDimensions: (stageDimensions: StageDimensions) => {
+		set({ stageDimensions });
+	},
+	updateLiveChats: async () => {
+		const liveChats = await getLiveChats();
+		set({ liveChats });
+	},
+	setStreamId: (streamId: string) => {
+		set({ streamId });
 	},
 });
 

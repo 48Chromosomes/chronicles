@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 
 import styles from './Narrator.module.scss';
@@ -35,7 +35,7 @@ export default function Narrator() {
 
 						setTimeout(() => {
 							setCurrentSentenceIndex((prevIndex) => prevIndex + 1);
-						}, 200);
+						}, 500);
 					};
 
 					audio.play();
