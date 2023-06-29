@@ -103,7 +103,9 @@ export const getBackgroundImage = async ({ prompt }: GetImageParams) => {
 		},
 	});
 
-	return image.url;
+	if (!image.error) {
+		return image.url;
+	}
 };
 
 export const synthesizeSpeech = async ({ text }: { text: string }) => {
@@ -122,22 +124,14 @@ export const synthesizeSpeech = async ({ text }: { text: string }) => {
 	return audio;
 };
 
-export const getLiveChats = async () => {
+export const getLiveChats = async ({ videoId }: { videoId: string }) => {
 	const response = await api({
 		endpoint: '/chronicles/livechat',
-		method: 'GET',
+		method: 'POST',
+		body: JSON.stringify({
+			videoId,
+		}),
 	});
 
 	return response.messages;
 };
-
-export async function sendStreamToServer(formData: FormData) {
-	try {
-		await fetch('http://localhost:3000/stream', {
-			method: 'POST',
-			body: formData,
-		});
-	} catch (err) {
-		console.error('Error: ' + err);
-	}
-}

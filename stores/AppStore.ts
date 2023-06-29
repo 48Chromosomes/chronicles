@@ -28,7 +28,7 @@ export const AppStore: AppStoreInterface = (
 	countdown: false,
 	stageDimensions: {},
 	liveChats: [],
-	streamId: '',
+	videoId: '',
 	toggleMusic: () => {
 		const { playMusic } = get();
 		set({ playMusic: !playMusic });
@@ -46,6 +46,9 @@ export const AppStore: AppStoreInterface = (
 			narrating: false,
 			narratorList: [],
 			waiting: false,
+			playMusic: false,
+			countdown: false,
+			stageDimensions: {},
 		}),
 	resetCharacter: () =>
 		set({
@@ -202,11 +205,17 @@ export const AppStore: AppStoreInterface = (
 		set({ stageDimensions });
 	},
 	updateLiveChats: async () => {
-		const liveChats = await getLiveChats();
-		set({ liveChats });
+		const { videoId } = get();
+
+		if (videoId === '') {
+			console.warn('WARNING: No video ID provided.');
+		} else {
+			const liveChats = await getLiveChats({ videoId });
+			set({ liveChats });
+		}
 	},
-	setStreamId: (streamId: string) => {
-		set({ streamId });
+	setVideoId: (videoId: string) => {
+		set({ videoId });
 	},
 });
 

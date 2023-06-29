@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Actions.module.scss';
 
 import { WebRTCAdaptor } from '@/utilities/antmedia';
@@ -12,7 +12,9 @@ import { ChatLog } from '@/types';
 export default function Actions() {
 	const {
 		character,
+		countdown,
 		chatLogs,
+		narrating,
 		waiting,
 		getCharacterAssets,
 		getCharacterImage,
@@ -26,16 +28,13 @@ export default function Actions() {
 		setNarrating,
 		toggleMusic,
 		setCountdown,
-		streamId,
-		setStreamId,
-		stageDimensions,
+		videoId,
+		setVideoId,
+		updateLiveChats,
 	} = useAppStore();
 	const [loading, setLoading] = useState<boolean>(false);
-	const [shouldShowStartRecordingModal, setShouldShowStartRecordingModal] =
+	const [shouldShowVideoIdModal, setShouldShowVideoIdModal] =
 		useState<boolean>(false);
-	const [webRTCAdaptor, setWebRTCAdaptor] = useState<WebRTCAdaptor | null>(
-		null,
-	);
 
 	const getCharacter = async () => {
 		setLoading(true);
@@ -85,31 +84,17 @@ export default function Actions() {
 
 	const changeMusic = () => toggleMusic();
 
-	const startCountdown = () => setCountdown(true);
+	const toggleCountdown = () => setCountdown(!countdown);
 
-	const startRecording = async (streamId: string) => {
-		setStreamId(streamId);
-		setShouldShowStartRecordingModal(false);
-
-		const webRTCAdaptorObject = new WebRTCAdaptor({
-			websocket_url: 'ws://35.159.22.210:5080/WebRTCAppEE/websocket',
-		});
-
-		await setWebRTCAdaptor(webRTCAdaptorObject);
-
-		webRTCAdaptor?.publish(streamId);
-		webRTCAdaptor?.switchDesktopCapture(streamId);
+	const setVideoIdStore = async (videoId: string) => {
+		setVideoId(videoId);
+		setShouldShowVideoIdModal(false);
 	};
 
-	const showStartRecordingModal = () => setShouldShowStartRecordingModal(true);
+	const showVideoIdModal = () => setShouldShowVideoIdModal(true);
 
-	const openStage = () => {
-		const { width, height } = stageDimensions;
-		const windowFeatures = `menubar=no,location=no,resizable=no,scrollbars=no,status=no,width=${width},height=${
-			Number(height) + 90
-		}`;
-
-		window.open('http://localhost:3000/live', '_blank', windowFeatures);
+	const selectLiveChat = () => {
+		updateLiveChats();
 	};
 
 	return (
@@ -149,9 +134,17 @@ export default function Actions() {
 
 				<hr />
 
-				<Button label="Trigger Narration" onClick={triggerNarration} />
+				<Button
+					label="Trigger Narration"
+					onClick={triggerNarration}
+					disabled={narrating}
+				/>
 
-				<Button label="Stop Narration" onClick={stopNarration} />
+				<Button
+					label="Stop Narration"
+					onClick={stopNarration}
+					disabled={!narrating}
+				/>
 
 				<Button label="Get background" onClick={getBackgroundImage} />
 
@@ -161,22 +154,23 @@ export default function Actions() {
 
 				<Button label="Toggle music" onClick={changeMusic} />
 
-				<Button label="Start countdown" onClick={startCountdown} />
+				<Button label="Toggle countdown" onClick={toggleCountdown} />
+
+				<Button label="Select live chat" onClick={selectLiveChat} />
 			</div>
 
 			<div className={styles.liveContainer}>
-				<Button label="Start recording" onClick={showStartRecordingModal} />
-				<Button label="Open stage" onClick={openStage} />
+				<Button label="Set Video ID" onClick={showVideoIdModal} />
 			</div>
 
 			<Modal
-				text="Input stream ID"
-				buttonLabel="Start"
+				text="Input video ID"
+				buttonLabel="Set"
 				shouldCollectValue={true}
-				defaultValue={streamId}
-				visible={shouldShowStartRecordingModal}
-				callback={startRecording}
-				onClose={() => setShouldShowStartRecordingModal(false)}
+				defaultValue={videoId}
+				visible={shouldShowVideoIdModal}
+				callback={setVideoIdStore}
+				onClose={() => setShouldShowVideoIdModal(false)}
 			/>
 		</div>
 	);

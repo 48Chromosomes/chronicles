@@ -14,7 +14,7 @@ export type AppStoreInterface = (
 	playMusic: boolean;
 	stageDimensions: StageDimensions;
 	liveChats: any[];
-	streamId: string;
+	videoId: string;
 	setCountdown: (countdown: boolean) => void;
 	toggleMusic: () => void;
 	setWaiting: (waiting: boolean) => void;
@@ -32,7 +32,7 @@ export type AppStoreInterface = (
 	rollDice: (shouldRoll: boolean) => void;
 	setStageDimensions: (dimensions: StageDimensions) => void;
 	updateLiveChats: () => void;
-	setStreamId: (streamId: string) => void;
+	setVideoId: (videoId: string) => void;
 };
 
 export interface Character {
@@ -78,4 +78,6 @@ export interface StageDimensions {
 	height?: number;
 	offsetX?: number;
 	offsetY?: number;
+	screenWidth?: number;
+	screenHeight?: number;
 }
