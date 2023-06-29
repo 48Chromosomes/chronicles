@@ -9,6 +9,7 @@ import Dice from '@/components/Dice/Dice';
 import Waiting from '@/components/Waiting/Waiting';
 import Music from '@/components/Music/Music';
 import Countdown from '@/components/Countdown/Countdown';
+import Spinner from '@/components/Spinner/Spinner';
 
 import { useAppStore } from '@/stores/AppStore';
 
@@ -25,6 +26,8 @@ export default function Stage() {
 				height: stageRef.current?.offsetHeight,
 				offsetX: stageRef.current?.getBoundingClientRect().left,
 				offsetY: stageRef.current?.getBoundingClientRect().top,
+				screenWidth: window.innerWidth,
+				screenHeight: window.innerHeight,
 			});
 		});
 	}, []);
@@ -51,6 +54,7 @@ export default function Stage() {
 				<Dice />
 				<Music />
 				<Countdown />
+				<Spinner />
 
 				<div
 					className={cx(styles.background, { [styles.fade]: fadeOut })}
