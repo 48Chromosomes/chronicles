@@ -1,14 +1,22 @@
+import { Character } from '@/types';
 import {
 	FetchParams,
 	BeginGameParams,
 	StoryPromptParams,
 	GetImageParams,
 } from '@/types/server';
-import { useAppStore } from '@/stores/AppStore';
 
 const url = process.env.NEXT_PUBLIC_APP_URL;
 
+const abortControllers: AbortController[] = [];
+
 const api = async ({ endpoint, method, body }: FetchParams) => {
+	const controller = new AbortController();
+
+	abortControllers.push(controller);
+
+	const signal = controller.signal;
+
 	try {
 		const response: Response = await fetch(`${url}${endpoint}`, {
 			method,
@@ -16,6 +24,7 @@ const api = async ({ endpoint, method, body }: FetchParams) => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(body),
+			signal,
 		});
 
 		if (!response.ok) {
@@ -31,6 +40,10 @@ const api = async ({ endpoint, method, body }: FetchParams) => {
 		);
 		return null;
 	}
+};
+
+export const cancelAllRequests = async () => {
+	abortControllers.forEach((controller) => controller.abort());
 };
 
 export const beginGameRequest = async ({
@@ -119,7 +132,7 @@ export const synthesizeSpeech = async ({ text }: { text: string }) => {
 		}),
 	});
 
-	const audio = await response.blob();
+	const audio: Blob = await response.blob();
 
 	return audio;
 };
@@ -134,4 +147,16 @@ export const getLiveChats = async ({ videoId }: { videoId: string }) => {
 	});
 
 	return response.messages;
+};
+
+export const getIntro = async ({ character }: { character: Character }) => {
+	const response = await api({
+		endpoint: '/chronicles/intro',
+		method: 'POST',
+		body: {
+			character,
+		},
+	});
+
+	return response;
 };

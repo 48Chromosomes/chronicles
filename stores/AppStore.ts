@@ -10,6 +10,7 @@ import {
 	getCharacterImage,
 	getCharacterRequest,
 	getLiveChats,
+	getIntro,
 } from '@/utilities/server';
 
 export const AppStore: AppStoreInterface = (
@@ -47,6 +48,7 @@ export const AppStore: AppStoreInterface = (
 			waiting: false,
 			playMusic: false,
 			countdown: false,
+			liveChats: [],
 		}),
 	resetCharacter: () =>
 		set({
@@ -72,6 +74,7 @@ export const AppStore: AppStoreInterface = (
 	setNarrating: (narrating: boolean) => {
 		set({ narrating, ...(narrating ? {} : { narratorList: [] }) });
 	},
+	sendIntroPrompt: async () => {},
 	sendBeginGamePrompt: async () => {
 		const {
 			chatLogs,
@@ -211,6 +214,15 @@ export const AppStore: AppStoreInterface = (
 	},
 	setVideoId: (videoId: string) => {
 		set({ videoId });
+	},
+	getGameIntro: async () => {
+		const { character, setChatLogs } = get();
+
+		const { intro }: { intro: string } = await getIntro({ character });
+
+		await setChatLogs({ role: 'assistant', content: { story: intro } });
+
+		return intro;
 	},
 });
 

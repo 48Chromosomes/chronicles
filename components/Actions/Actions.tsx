@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styles from './Actions.module.scss';
 
-import { WebRTCAdaptor } from '@/utilities/antmedia';
 import { useAppStore } from '@/stores/AppStore';
 
 import Button from './Button/Button';
 import Loading from './Loading/Loading';
 import Modal from './Modal/Modal';
+import Divider from './Divider/Divider';
+
+import { cancelAllRequests, synthesizeSpeech } from '@/utilities/server';
 import { ChatLog } from '@/types';
 
 export default function Actions() {
@@ -31,6 +33,7 @@ export default function Actions() {
 		videoId,
 		setVideoId,
 		updateLiveChats,
+		getGameIntro,
 	} = useAppStore();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [shouldShowVideoIdModal, setShouldShowVideoIdModal] =
@@ -97,10 +100,67 @@ export default function Actions() {
 		updateLiveChats();
 	};
 
+	const cancelAll = () => {
+		cancelAllRequests();
+		setNarrating(false);
+		setCountdown(false);
+		setWaiting(false);
+	};
+
+	const getIntro = async () => {
+		setLoading(true);
+
+		const intro = await getGameIntro();
+
+		setLoading(false);
+
+		const blob = await synthesizeSpeech({ text: intro });
+
+		const url = URL.createObjectURL(blob);
+
+		const audio = new Audio(url);
+
+		audio.play();
+	};
+
 	return (
 		<div className={styles.actionsContainer}>
 			<div className={styles.actions}>
 				{loading && <Loading />}
+
+				<Divider label="Game" />
+
+				<Button
+					label="Begin Game"
+					onClick={beginGame}
+					disabled={chatLogs.length !== 0 || !character}
+				/>
+
+				<Button label="Get intro" onClick={getIntro} />
+
+				<Button
+					label="Reset Story"
+					onClick={resetStory}
+					disabled={chatLogs.length === 0}
+				/>
+
+				<Divider label="Controls" />
+
+				<Button label="Get background" onClick={getBackgroundImage} />
+
+				<Button label="Roll dice" onClick={rollDiceAction} />
+
+				<Button label="Toggle waiting" onClick={toggleWaiting} />
+
+				<Button label="Toggle music" onClick={changeMusic} />
+
+				<Button label="Toggle countdown" onClick={toggleCountdown} />
+
+				<Button label="Select live chat" onClick={selectLiveChat} />
+
+				<Button label="Cancel requests" onClick={cancelAll} />
+
+				<Divider label="Character" />
 
 				<Button
 					label="Get Character"
@@ -120,19 +180,7 @@ export default function Actions() {
 					disabled={!character}
 				/>
 
-				<Button
-					label="Reset Story"
-					onClick={resetStory}
-					disabled={chatLogs.length === 0}
-				/>
-
-				<Button
-					label="Begin Game"
-					onClick={beginGame}
-					disabled={chatLogs.length !== 0 || !character}
-				/>
-
-				<hr />
+				<Divider label="Narrator" />
 
 				<Button
 					label="Trigger Narration"
@@ -145,18 +193,6 @@ export default function Actions() {
 					onClick={stopNarration}
 					disabled={!narrating}
 				/>
-
-				<Button label="Get background" onClick={getBackgroundImage} />
-
-				<Button label="Roll dice" onClick={rollDiceAction} />
-
-				<Button label="Toggle waiting" onClick={toggleWaiting} />
-
-				<Button label="Toggle music" onClick={changeMusic} />
-
-				<Button label="Toggle countdown" onClick={toggleCountdown} />
-
-				<Button label="Select live chat" onClick={selectLiveChat} />
 			</div>
 
 			<div className={styles.liveContainer}>
