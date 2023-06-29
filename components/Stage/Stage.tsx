@@ -14,23 +14,10 @@ import Spinner from '@/components/Spinner/Spinner';
 import { useAppStore } from '@/stores/AppStore';
 
 export default function Stage() {
-	const { background, character, setStageDimensions } = useAppStore();
+	const { background, character } = useAppStore();
 	const [previousBackground, setPreviousBackground] = useState(background);
 	const [fadeOut, setFadeOut] = useState<boolean>(false);
 	const stageRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setStageDimensions({
-				width: stageRef.current?.offsetWidth,
-				height: stageRef.current?.offsetHeight,
-				offsetX: stageRef.current?.getBoundingClientRect().left,
-				offsetY: stageRef.current?.getBoundingClientRect().top,
-				screenWidth: window.innerWidth,
-				screenHeight: window.innerHeight,
-			});
-		});
-	}, []);
 
 	useEffect(() => {
 		if (previousBackground !== background) {

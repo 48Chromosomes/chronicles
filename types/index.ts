@@ -12,7 +12,6 @@ export type AppStoreInterface = (
 	narrating: boolean;
 	waiting: boolean;
 	playMusic: boolean;
-	stageDimensions: StageDimensions;
 	liveChats: any[];
 	videoId: string;
 	setCountdown: (countdown: boolean) => void;
@@ -30,7 +29,6 @@ export type AppStoreInterface = (
 	sendStoryPrompt: ({ prompt }: { prompt: string }) => void;
 	sendBackgroundImagePrompt: ({ prompt }: { prompt: string }) => void;
 	rollDice: (shouldRoll: boolean) => void;
-	setStageDimensions: (dimensions: StageDimensions) => void;
 	updateLiveChats: () => void;
 	setVideoId: (videoId: string) => void;
 };

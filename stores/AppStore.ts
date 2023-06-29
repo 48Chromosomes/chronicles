@@ -26,7 +26,6 @@ export const AppStore: AppStoreInterface = (
 	waiting: false,
 	playMusic: false,
 	countdown: false,
-	stageDimensions: {},
 	liveChats: [],
 	videoId: '',
 	toggleMusic: () => {
@@ -48,7 +47,6 @@ export const AppStore: AppStoreInterface = (
 			waiting: false,
 			playMusic: false,
 			countdown: false,
-			stageDimensions: {},
 		}),
 	resetCharacter: () =>
 		set({
@@ -200,9 +198,6 @@ export const AppStore: AppStoreInterface = (
 				}
 			}, 3000);
 		});
-	},
-	setStageDimensions: (stageDimensions: StageDimensions) => {
-		set({ stageDimensions });
 	},
 	updateLiveChats: async () => {
 		const { videoId } = get();
