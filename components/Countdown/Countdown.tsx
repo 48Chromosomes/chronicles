@@ -7,23 +7,32 @@ import { useAppStore } from '@/stores/AppStore';
 
 function Countdown() {
 	const { countdown, setCountdown, updateLiveChats } = useAppStore();
-	const [countdownEnded, setCountdownEnded] = useState(false);
-	const [count, setCount] = useState(20);
+	const [countdownEnded, setCountdownEnded] = useState(true);
+	const [count, setCount] = useState(40);
 
 	useEffect(() => {
-		if (count > 0 && countdown) {
-			const id = setInterval(() => {
-				setCount((currentCount) => currentCount - 1);
-			}, 1000);
+		if (countdown) {
+			setCountdownEnded(false);
 
-			return () => clearInterval(id);
-		} else if (countdown && !countdownEnded) {
-			updateLiveChats();
-			setCountdown(false);
-			setCountdownEnded(true);
-			setTimeout(() => setCount(20), 2000);
+			if (count > 0) {
+				const id = setInterval(() => {
+					setCount((currentCount) => currentCount - 1);
+				}, 1000);
+
+				return () => clearInterval(id);
+			} else {
+				updateLiveChats();
+				setCountdown(false);
+				setCountdownEnded(true);
+			}
 		}
-	}, [count, countdown, countdownEnded]);
+	}, [count, countdown]);
+
+	useEffect(() => {
+		if (countdownEnded) {
+			setTimeout(() => setCount(40), 2000);
+		}
+	}, [countdownEnded]);
 
 	return (
 		<>
