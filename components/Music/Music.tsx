@@ -9,18 +9,25 @@ export default function Music() {
 		const audioObj = new Audio('audio/background.mp3');
 		audioObj.loop = true;
 		audioObj.volume = 0.1;
-		setAudio(audioObj);
+
+		const handleCanPlayThrough = () => {
+			setAudio(audioObj);
+		};
+
+		audioObj.addEventListener('canplaythrough', handleCanPlayThrough);
+
+		return () => {
+			audioObj.removeEventListener('canplaythrough', handleCanPlayThrough);
+		};
 	}, []);
 
 	useEffect(() => {
-		if (audio) {
-			if (playMusic) {
-				audio.play();
-			} else {
-				audio.pause();
-			}
+		if (audio && playMusic) {
+			audio.play();
+		} else if (audio) {
+			audio.pause();
 		}
-	}, [playMusic]);
+	}, [audio, playMusic]);
 
 	useEffect(() => {
 		if (audio) {
