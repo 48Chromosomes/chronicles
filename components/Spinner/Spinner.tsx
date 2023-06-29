@@ -12,7 +12,15 @@ export default function Spinner() {
 	const [chosenChat, setChosenChat] = useState<LiveChat | null>(null);
 
 	useEffect(() => {
-		const chatsWithTaggedUser = liveChats.filter(
+		const uniqueUsernames = Array.from(
+			new Set(liveChats.map((object) => object.username)),
+		);
+
+		const uniqueChats = liveChats.filter((object) =>
+			uniqueUsernames.includes(object.username),
+		);
+
+		const chatsWithTaggedUser = uniqueChats.filter(
 			(object) => object.includesTaggedUser,
 		);
 
