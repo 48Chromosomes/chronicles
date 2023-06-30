@@ -160,3 +160,12 @@ export const getIntro = async ({ character }: { character: Character }) => {
 
 	return response;
 };
+
+export const getOutro = async () => {
+	const response = await api({
+		endpoint: '/chronicles/outro',
+		method: 'GET',
+	});
+
+	return response;
+};

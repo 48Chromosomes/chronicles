@@ -8,7 +8,12 @@ import Loading from './Loading/Loading';
 import Modal from './Modal/Modal';
 import Divider from './Divider/Divider';
 
-import { cancelAllRequests, synthesizeSpeech } from '@/utilities/server';
+import {
+	cancelAllRequests,
+	synthesizeSpeech,
+	getIntro,
+	getOutro,
+} from '@/utilities/server';
 import { ChatLog } from '@/types';
 
 export default function Actions() {
@@ -33,7 +38,7 @@ export default function Actions() {
 		videoId,
 		setVideoId,
 		updateLiveChats,
-		getGameIntro,
+		setChatLogs,
 	} = useAppStore();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [shouldShowVideoIdModal, setShouldShowVideoIdModal] =
@@ -107,19 +112,26 @@ export default function Actions() {
 		setWaiting(false);
 	};
 
-	const getIntro = async () => {
+	const getIntroSpeech = async () => {
 		setLoading(true);
-
-		const intro = await getGameIntro();
-
+		const { intro }: { intro: string } = await getIntro({ character });
 		setLoading(false);
+		await setChatLogs({ role: 'assistant', content: { story: intro } });
+		playAudio(intro);
+	};
 
-		const blob = await synthesizeSpeech({ text: intro });
+	const getOutroSpeech = async () => {
+		setLoading(true);
+		const { outro }: { outro: string } = await getOutro();
+		setLoading(false);
+		await setChatLogs({ role: 'assistant', content: { story: outro } });
+		playAudio(outro);
+	};
 
+	const playAudio = async (text: string) => {
+		const blob = await synthesizeSpeech({ text });
 		const url = URL.createObjectURL(blob);
-
 		const audio = new Audio(url);
-
 		audio.play();
 	};
 
@@ -133,10 +145,12 @@ export default function Actions() {
 				<Button
 					label="Begin Game"
 					onClick={beginGame}
-					disabled={chatLogs.length !== 0 || !character}
+					disabled={chatLogs.length !== 1 || !character}
 				/>
 
-				<Button label="Get intro" onClick={getIntro} />
+				<Button label="Get intro" onClick={getIntroSpeech} />
+
+				<Button label="Get outro" onClick={getOutroSpeech} />
 
 				<Button
 					label="Reset Story"

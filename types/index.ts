@@ -31,7 +31,6 @@ export type AppStoreInterface = (
 	rollDice: (shouldRoll: boolean) => void;
 	updateLiveChats: () => void;
 	setVideoId: (videoId: string) => void;
-	getGameIntro: () => Promise<string>;
 };
 
 export interface Character {
