@@ -1,9 +1,13 @@
 import React from 'react';
+import { Heebo, Comme } from 'next/font/google';
 import cx from 'classnames';
 
 import styles from './Character.module.scss';
 
 import { useAppStore } from '@/stores/AppStore';
+
+const heebo = Heebo({ weight: '300', subsets: ['latin'], style: 'normal' });
+const comme = Comme({ weight: '500', subsets: ['latin'], style: 'normal' });
 
 export default function Character() {
 	const { narrating, waiting, character, characterImage } = useAppStore();
@@ -14,8 +18,8 @@ export default function Character() {
 				[styles.faded]: narrating || waiting,
 			})}
 		>
-			<div className={styles.characterSheet}>
-				<h2>{character.name}</h2>
+			<div className={cx(styles.characterSheet, heebo.className)}>
+				<h2 className={comme.className}>{character.name}</h2>
 
 				<p>
 					Alignment <span>{character.alignment}</span>

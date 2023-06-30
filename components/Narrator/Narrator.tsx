@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Lora } from 'next/font/google';
 import cx from 'classnames';
 
 import styles from './Narrator.module.scss';
 import { useAppStore } from '@/stores/AppStore';
 import { synthesizeSpeech } from '@/utilities/server';
+
+const lora = Lora({ weight: '500', subsets: ['latin'], style: 'normal' });
 
 export default function Narrator() {
 	const { narrating, narratorList, setNarratorList, setNarrating } =
@@ -53,7 +56,7 @@ export default function Narrator() {
 		>
 			{narratorList && narratorList.length > 0 && (
 				<div
-					className={`${styles.narration} ${
+					className={`${styles.narration} ${lora.className} ${
 						fadeNarration
 							? styles['narration--faded']
 							: styles['narration--visible']
