@@ -141,9 +141,9 @@ export const getLiveChats = async ({ videoId }: { videoId: string }) => {
 	const response = await api({
 		endpoint: '/chronicles/livechat',
 		method: 'POST',
-		body: JSON.stringify({
+		body: {
 			videoId,
-		}),
+		},
 	});
 
 	return response.messages;
