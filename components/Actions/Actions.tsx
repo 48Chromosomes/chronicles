@@ -148,9 +148,17 @@ export default function Actions() {
 					disabled={chatLogs.length !== 1 || !character}
 				/>
 
-				<Button label="Get intro" onClick={getIntroSpeech} />
+				<Button
+					label="Get intro"
+					onClick={getIntroSpeech}
+					disabled={!character}
+				/>
 
-				<Button label="Get outro" onClick={getOutroSpeech} />
+				<Button
+					label="Get outro"
+					onClick={getOutroSpeech}
+					disabled={!character}
+				/>
 
 				<Button
 					label="Reset Story"
