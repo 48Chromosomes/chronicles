@@ -50,6 +50,7 @@ export const AppStore: AppStoreInterface = (
 			playMusic: false,
 			countdown: false,
 			liveChats: [],
+			background: '/images/background.jpeg',
 		}),
 	resetCharacter: () =>
 		set({
