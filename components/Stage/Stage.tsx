@@ -10,6 +10,7 @@ import Waiting from '@/components/Waiting/Waiting';
 import Music from '@/components/Music/Music';
 import Countdown from '@/components/Countdown/Countdown';
 import Spinner from '@/components/Spinner/Spinner';
+import Standby from '@/components/Standby/Standby';
 
 import { useAppStore } from '@/stores/AppStore';
 
@@ -42,6 +43,7 @@ export default function Stage() {
 				<Music />
 				<Countdown />
 				<Spinner />
+				<Standby />
 
 				<div
 					className={cx(styles.background, { [styles.fade]: fadeOut })}

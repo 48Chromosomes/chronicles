@@ -14,6 +14,7 @@ export type AppStoreInterface = (
 	playMusic: boolean;
 	liveChats: any[];
 	videoId: string;
+	standby: boolean;
 	setCountdown: (countdown: boolean) => void;
 	toggleMusic: () => void;
 	setWaiting: (waiting: boolean) => void;
@@ -31,6 +32,7 @@ export type AppStoreInterface = (
 	rollDice: (shouldRoll: boolean) => void;
 	updateLiveChats: () => void;
 	setVideoId: (videoId: string) => void;
+	toggleStandby: () => void;
 };
 
 export interface Character {

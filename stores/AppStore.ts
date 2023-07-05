@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { ChatLog, AppStoreInterface, StageDimensions } from '@/types';
+import { ChatLog, AppStoreInterface } from '@/types';
 import { buildNarratorList } from '@/utilities/narration';
 import {
 	beginGameRequest,
@@ -10,8 +10,6 @@ import {
 	getCharacterImage,
 	getCharacterRequest,
 	getLiveChats,
-	getIntro,
-	getOutro,
 } from '@/utilities/server';
 
 export const AppStore: AppStoreInterface = (
@@ -30,6 +28,11 @@ export const AppStore: AppStoreInterface = (
 	countdown: false,
 	liveChats: [],
 	videoId: '',
+	standby: false,
+	toggleStandby: () => {
+		const { standby } = get();
+		set({ standby: !standby });
+	},
 	toggleMusic: () => {
 		const { playMusic } = get();
 		set({ playMusic: !playMusic });

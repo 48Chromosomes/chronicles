@@ -39,6 +39,7 @@ export default function Actions() {
 		setVideoId,
 		updateLiveChats,
 		setChatLogs,
+		toggleStandby,
 	} = useAppStore();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [shouldShowVideoIdModal, setShouldShowVideoIdModal] =
@@ -135,6 +136,8 @@ export default function Actions() {
 		audio.play();
 	};
 
+	const toggleStandbyScreen = () => toggleStandby();
+
 	return (
 		<div className={styles.actionsContainer}>
 			<div className={styles.actions}>
@@ -177,6 +180,8 @@ export default function Actions() {
 				<Button label="Toggle music" onClick={changeMusic} />
 
 				<Button label="Toggle countdown" onClick={toggleCountdown} />
+
+				<Button label="Toggle standby" onClick={toggleStandbyScreen} />
 
 				<Button label="Select live chat" onClick={selectLiveChat} />
 
