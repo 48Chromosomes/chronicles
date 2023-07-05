@@ -169,17 +169,19 @@ export default function Actions() {
 					disabled={chatLogs.length === 0}
 				/>
 
+				<Divider label="Choices" />
+
+				<Button label="Roll dice" onClick={rollDiceAction} />
+
+				<Button label="Countdown" onClick={toggleCountdown} />
+
 				<Divider label="Controls" />
 
 				<Button label="Get background" onClick={getBackgroundImage} />
 
-				<Button label="Roll dice" onClick={rollDiceAction} />
-
 				<Button label="Toggle waiting" onClick={toggleWaiting} />
 
 				<Button label="Toggle music" onClick={changeMusic} />
-
-				<Button label="Toggle countdown" onClick={toggleCountdown} />
 
 				<Button label="Toggle standby" onClick={toggleStandbyScreen} />
 
@@ -220,9 +222,9 @@ export default function Actions() {
 					onClick={stopNarration}
 					disabled={!narrating}
 				/>
-			</div>
 
-			<div className={styles.liveContainer}>
+				<Divider label="Stream" />
+
 				<Button label="Set Video ID" onClick={showVideoIdModal} />
 			</div>
 

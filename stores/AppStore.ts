@@ -178,14 +178,6 @@ export const AppStore: AppStoreInterface = (
 			sendBackgroundImagePrompt({ prompt: response.visual_description });
 
 			setNarratorList(response.story);
-
-			await narrationEnd();
-
-			if (response.roll_dice) {
-				rollDice(true);
-			} else {
-				setCountdown(true);
-			}
 		}
 	},
 	sendBackgroundImagePrompt: async ({ prompt }: { prompt: string }) => {
