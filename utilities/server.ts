@@ -92,12 +92,17 @@ export const storyPromptRequest = async ({
 	chatLogs,
 	character,
 }: StoryPromptParams) => {
+	const filteredChatLogs =
+		chatLogs.length <= 120
+			? chatLogs
+			: [...chatLogs.slice(0, 20), ...chatLogs.slice(-100)];
+
 	const response = await api({
 		endpoint: '/chronicles/prompt',
 		method: 'POST',
 		body: {
 			prompt,
-			chatLogs,
+			chatLogs: filteredChatLogs,
 			character,
 		},
 	});
