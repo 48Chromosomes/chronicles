@@ -8,10 +8,12 @@ import { useAppStore } from '@/stores/AppStore';
 
 const caladea = Caladea({ weight: '700', subsets: ['latin'], style: 'italic' });
 
+const countdownTime = 30;
+
 function Countdown() {
 	const { countdown, setCountdown, updateLiveChats } = useAppStore();
 	const [countdownEnded, setCountdownEnded] = useState(true);
-	const [count, setCount] = useState(40);
+	const [count, setCount] = useState(countdownTime);
 
 	useEffect(() => {
 		if (countdown) {
@@ -28,12 +30,14 @@ function Countdown() {
 				setCountdown(false);
 				setCountdownEnded(true);
 			}
+		} else {
+			setTimeout(() => setCount(countdownTime), 2000);
 		}
 	}, [count, countdown]);
 
 	useEffect(() => {
 		if (countdownEnded) {
-			setTimeout(() => setCount(40), 2000);
+			setTimeout(() => setCount(countdownTime), 2000);
 		}
 	}, [countdownEnded]);
 
@@ -47,7 +51,7 @@ function Countdown() {
 				<div className={cx(styles.counter, caladea.className)}>{count}</div>
 
 				{Array.from({ length: 200 }, (_, index) => (
-					<div key={index} className={styles.tri}></div>
+					<div key={index} className={styles.circle}></div>
 				))}
 			</div>
 		</>

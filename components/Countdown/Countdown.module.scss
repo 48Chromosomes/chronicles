@@ -34,12 +34,11 @@ $time: 10s;
 		color: white;
 	}
 
-	.tri {
-		height: 0;
-		width: 0;
+	.circle {
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		border-radius: 50%;
 	}
 }
 
@@ -47,10 +46,10 @@ $time: 10s;
 	$size: random(50) * 1px;
 	$rotate: random(360) * 1deg;
 
-	.tri:nth-child(#{$i}) {
-		border-top: $size solid hsla(random(360), 100%, 50%, 1);
-		border-right: $size solid transparent;
-		border-left: $size solid transparent;
+	.circle:nth-child(#{$i}) {
+		width: $size;
+		height: $size;
+		background-color: hsla(random(360), 100%, 50%, 1);
 		margin-left: -$size/2;
 		margin-top: -$size/2;
 		-webkit-filter: grayscale(1);
