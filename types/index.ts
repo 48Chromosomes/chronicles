@@ -15,6 +15,7 @@ export type AppStoreInterface = (
 	liveChats: any[];
 	videoId: string;
 	standby: boolean;
+	nextAction: string;
 	setCountdown: (countdown: boolean) => void;
 	toggleMusic: () => void;
 	setWaiting: (waiting: boolean) => void;
@@ -28,11 +29,13 @@ export type AppStoreInterface = (
 	setNarratorList: (text: string) => void;
 	sendBeginGamePrompt: () => void;
 	sendStoryPrompt: ({ prompt }: { prompt: string }) => void;
-	sendBackgroundImagePrompt: ({ prompt }: { prompt: string }) => void;
+	sendBackgroundImagePrompt: ({ chatLogs }: { chatLogs: ChatLog[] }) => void;
 	rollDice: (shouldRoll: boolean) => void;
 	updateLiveChats: () => void;
 	setVideoId: (videoId: string) => void;
 	toggleStandby: () => void;
+	setNextAction: (nextAction: string) => void;
+	performNextAction: () => void;
 };
 
 export interface Character {
@@ -56,9 +59,7 @@ export interface Character {
 
 export interface StorySegment {
 	story: string;
-	visual_description?: string;
 	roll_dice?: boolean;
-	story_end?: boolean;
 }
 
 export interface ChatLog {
@@ -71,13 +72,4 @@ export interface LiveChat {
 	username: string;
 	timestamp: string;
 	includesTaggedUser: boolean;
-}
-
-export interface StageDimensions {
-	width?: number;
-	height?: number;
-	offsetX?: number;
-	offsetY?: number;
-	screenWidth?: number;
-	screenHeight?: number;
 }

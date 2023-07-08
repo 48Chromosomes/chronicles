@@ -29,6 +29,7 @@ export const AppStore: AppStoreInterface = (
 	liveChats: [],
 	videoId: '',
 	standby: false,
+	nextAction: '',
 	toggleStandby: () => {
 		const { standby } = get();
 		set({ standby: !standby });
@@ -109,7 +110,7 @@ export const AppStore: AppStoreInterface = (
 
 		setChatLogs({ role: 'assistant', content: response });
 
-		sendBackgroundImagePrompt({ prompt: response.visual_description });
+		sendBackgroundImagePrompt({ prompt: response.story });
 
 		setNarratorList(response.story);
 
@@ -152,9 +153,9 @@ export const AppStore: AppStoreInterface = (
 			setChatLogs,
 			sendBackgroundImagePrompt,
 			setNarratorList,
-			rollDice,
 			narrationEnd,
-			setCountdown,
+			setNextAction,
+			performNextAction,
 		} = get();
 
 		setWaiting(true);
@@ -171,17 +172,30 @@ export const AppStore: AppStoreInterface = (
 				response.error,
 			);
 		} else {
-			setChatLogs({ role: 'assistant', content: response });
+			const nextAction =
+				response.roll_dice === true ? 'ROLL_DICE' : 'COUNTDOWN';
+
+			setNextAction(nextAction);
+
+			const newChatLog = { role: 'assistant', content: response };
+
+			setChatLogs(newChatLog);
 
 			setWaiting(false);
 
-			sendBackgroundImagePrompt({ prompt: response.visual_description });
+			sendBackgroundImagePrompt({
+				chatLogs: [...chatLogs, newChatLog],
+			});
 
 			setNarratorList(response.story);
+
+			await narrationEnd();
+
+			performNextAction();
 		}
 	},
-	sendBackgroundImagePrompt: async ({ prompt }: { prompt: string }) => {
-		const background = await getBackgroundImage({ prompt });
+	sendBackgroundImagePrompt: async ({ chatLogs }: { chatLogs: ChatLog[] }) => {
+		const background = await getBackgroundImage({ chatLogs });
 		set({ background });
 	},
 	rollDice: (shouldRoll: boolean) => {
@@ -211,6 +225,18 @@ export const AppStore: AppStoreInterface = (
 	},
 	setVideoId: (videoId: string) => {
 		set({ videoId });
+	},
+	setNextAction: (nextAction: string) => {
+		set({ nextAction });
+	},
+	performNextAction: () => {
+		const { nextAction, rollDice, setCountdown } = get();
+
+		if (nextAction === 'ROLL_DICE') {
+			rollDice(true);
+		} else if (nextAction === 'COUNTDOWN') {
+			setCountdown(true);
+		}
 	},
 });
 

@@ -11,6 +11,7 @@ import Music from '@/components/Music/Music';
 import Countdown from '@/components/Countdown/Countdown';
 import Spinner from '@/components/Spinner/Spinner';
 import Standby from '@/components/Standby/Standby';
+import NextAction from '@/components/NextAction/NextAction';
 
 import { useAppStore } from '@/stores/AppStore';
 
@@ -55,6 +56,8 @@ export default function Stage() {
 					style={{ backgroundImage: `url(${background})`, zIndex: 1 }}
 				></div>
 			</div>
+
+			<NextAction />
 		</div>
 	);
 }

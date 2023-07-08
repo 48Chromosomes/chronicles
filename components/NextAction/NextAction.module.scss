@@ -1,0 +1,16 @@
+.nextActionContainer {
+	display: flex;
+	flex-direction: row;
+	margin-top: 80%;
+	color: white;
+	text-transform: uppercase;
+	cursor: pointer;
+
+	span {
+		opacity: 0.5;
+	}
+
+	.clear {
+		margin-left: 20px;
+	}
+}

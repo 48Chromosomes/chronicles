@@ -75,7 +75,7 @@ export default function Actions() {
 			const lastLog: ChatLog = chatLogs[chatLogs.length - 1];
 
 			await sendBackgroundImagePrompt({
-				prompt: lastLog.content.visual_description || 'A fantasy world',
+				chatLogs: [lastLog],
 			});
 			setLoading(false);
 		} catch (error) {

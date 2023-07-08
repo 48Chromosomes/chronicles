@@ -110,12 +110,12 @@ export const storyPromptRequest = async ({
 	return response;
 };
 
-export const getBackgroundImage = async ({ prompt }: GetImageParams) => {
+export const getBackgroundImage = async ({ chatLogs }: GetImageParams) => {
 	const image = await api({
 		endpoint: '/chronicles/image',
 		method: 'POST',
 		body: {
-			prompt,
+			chatLogs,
 			width: 1024,
 			height: 768,
 		},
