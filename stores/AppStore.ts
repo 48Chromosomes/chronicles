@@ -108,9 +108,13 @@ export const AppStore: AppStoreInterface = (
 			character,
 		});
 
-		setChatLogs({ role: 'assistant', content: response });
+		const newChatLog = { role: 'assistant', content: response };
 
-		sendBackgroundImagePrompt({ prompt: response.story });
+		setChatLogs(newChatLog);
+
+		sendBackgroundImagePrompt({
+			chatLogs: [...chatLogs, newChatLog],
+		});
 
 		setNarratorList(response.story);
 
