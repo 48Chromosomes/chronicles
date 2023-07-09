@@ -90,6 +90,9 @@ export const AppStore: AppStoreInterface = (
 			setNarratorList,
 			sendBackgroundImagePrompt,
 			toggleMusic,
+			setNextAction,
+			narrationEnd,
+			performNextAction,
 		} = get();
 
 		setNarratorList('Let us begin..');
@@ -108,6 +111,10 @@ export const AppStore: AppStoreInterface = (
 			character,
 		});
 
+		const nextAction = response.roll_dice === true ? 'ROLL_DICE' : 'COUNTDOWN';
+
+		setNextAction(nextAction);
+
 		const newChatLog = { role: 'assistant', content: response };
 
 		setChatLogs(newChatLog);
@@ -116,9 +123,13 @@ export const AppStore: AppStoreInterface = (
 			chatLogs: [...chatLogs, newChatLog],
 		});
 
+		setWaiting(false);
+
 		setNarratorList(response.story);
 
-		setWaiting(false);
+		await narrationEnd();
+
+		performNextAction();
 	},
 	getCharacterAssets: async () => {
 		const { getCharacterImage } = get();
