@@ -93,9 +93,11 @@ export const storyPromptRequest = async ({
 	character,
 }: StoryPromptParams) => {
 	const filteredChatLogs =
-		chatLogs.length <= 120
+		chatLogs.length <= 80
 			? chatLogs
-			: [...chatLogs.slice(0, 20), ...chatLogs.slice(-100)];
+			: [...chatLogs.slice(0, 20), ...chatLogs.slice(-60)];
+
+	console.log('Filtered chat log length: ', filteredChatLogs.length);
 
 	const response = await api({
 		endpoint: '/chronicles/prompt',
