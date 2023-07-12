@@ -62,9 +62,9 @@ export default function Console() {
 							<div key={index}>
 								<div className={styles.log}>{log.content?.story}</div>
 
-								{log.content?.roll_dice && (
+								{/* {log.content?.roll_dice && (
 									<div className={styles.roll}>Dice roll required</div>
-								)}
+								)} */}
 							</div>
 						))}
 				</div>

@@ -59,7 +59,6 @@ export interface Character {
 
 export interface StorySegment {
 	story: string;
-	roll_dice?: boolean;
 }
 
 export interface ChatLog {

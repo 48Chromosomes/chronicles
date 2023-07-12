@@ -22,7 +22,10 @@ export default function NextAction() {
 	return (
 		<div className={styles.nextActionContainer}>
 			<div onClick={toggleNextAction}>
-				<span>Next Action:</span> {nextAction || '-'}
+				<span>Next Action:</span>{' '}
+				{nextAction === 'ROLL_DICE' && <>🎲 {nextAction}</>}
+				{nextAction === 'COUNTDOWN' && <>🕛 {nextAction}</>}
+				{nextAction === '' && <>-</>}
 			</div>
 
 			<div className={styles.clear} onClick={clearNextAction}>

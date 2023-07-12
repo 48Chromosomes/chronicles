@@ -111,7 +111,8 @@ export const AppStore: AppStoreInterface = (
 			character,
 		});
 
-		const nextAction = response.roll_dice === true ? 'ROLL_DICE' : 'COUNTDOWN';
+		const nextAction =
+			response.story.includes('D20') === true ? 'ROLL_DICE' : 'COUNTDOWN';
 
 		setNextAction(nextAction);
 
@@ -187,8 +188,9 @@ export const AppStore: AppStoreInterface = (
 				response.error,
 			);
 		} else {
-			const nextAction =
-				response.roll_dice === true ? 'ROLL_DICE' : 'COUNTDOWN';
+			const nextAction = response.story.includes('D20')
+				? 'ROLL_DICE'
+				: 'COUNTDOWN';
 
 			setNextAction(nextAction);
 
