@@ -4,6 +4,8 @@ import cx from 'classnames';
 
 import styles from './Dice.module.scss';
 
+import { weightedRandom } from '@/utilities';
+
 import { useAppStore } from '@/stores/AppStore';
 
 function DiceComponent() {
@@ -58,7 +60,7 @@ function DiceComponent() {
 
 					setBox(Box);
 				} else {
-					const randomNumber = Math.floor(Math.random() * 20) + 1;
+					const randomNumber = weightedRandom();
 
 					box.roll(`1d20@${randomNumber}`).then(() => {
 						setNarratorList(`You rolled ${randomNumber}`);

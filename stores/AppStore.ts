@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { ChatLog, AppStoreInterface } from '@/types';
-import { buildNarratorList } from '@/utilities/narration';
+import { buildNarratorList } from '@/utilities';
 import {
 	beginGameRequest,
 	storyPromptRequest,
