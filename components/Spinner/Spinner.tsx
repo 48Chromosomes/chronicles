@@ -10,23 +10,35 @@ export default function Spinner() {
 	const { liveChats, sendStoryPrompt, setNarratorList, setChatLogs } =
 		useAppStore();
 	const [chosenChat, setChosenChat] = useState<LiveChat | null>(null);
+	const [lastPlayer, setLastPlayer] = useState<string | null>(null);
 
 	useEffect(() => {
-		const uniqueUsernames = Array.from(
-			new Set(liveChats.map((object) => object.username)),
-		);
+		let lastChatsOfEachUser: LiveChat[] = [];
 
-		const uniqueChats = liveChats.filter((object) =>
-			uniqueUsernames.includes(object.username),
-		);
+		// filter out the chats that have been overwritten by a new message from the same user
+		liveChats.reduce((acc, chat) => {
+			acc[chat.username] = chat;
+			return acc;
+		}, lastChatsOfEachUser);
 
-		const chatsWithTaggedUser = uniqueChats.filter(
+		// filter out the last player from the selection
+		if (lastPlayer) {
+			lastChatsOfEachUser = lastChatsOfEachUser.filter(
+				(chat) => chat.username !== lastPlayer,
+			);
+		}
+
+		// filter out the chats that don't include a tagged user
+		const chatsWithTaggedUser = lastChatsOfEachUser.filter(
 			(object) => object.includesTaggedUser,
 		);
 
 		const randomIndex = Math.floor(Math.random() * chatsWithTaggedUser.length);
 
-		setChosenChat(chatsWithTaggedUser[randomIndex]);
+		const chosenChat = chatsWithTaggedUser[randomIndex];
+
+		setChosenChat(chosenChat);
+		setLastPlayer(chosenChat.username);
 	}, [liveChats]);
 
 	useEffect(() => {
