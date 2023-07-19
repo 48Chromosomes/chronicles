@@ -15,7 +15,12 @@ export default function Spinner() {
 	useEffect(() => {
 		if (liveChats.length > 0) {
 			const randomIndex = Math.floor(Math.random() * liveChats.length);
-			const chosenChat = liveChats[randomIndex];
+
+			const chatsWithTaggedUser = liveChats.filter(
+				(object) => object.includesTaggedUser,
+			);
+
+			const chosenChat = chatsWithTaggedUser[randomIndex];
 
 			setChosenChat(chosenChat);
 		}
