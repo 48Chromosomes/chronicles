@@ -33,18 +33,22 @@ export default function Spinner() {
 			(object) => object.includesTaggedUser,
 		);
 
-		const randomIndex = Math.floor(Math.random() * chatsWithTaggedUser.length);
+		if (chatsWithTaggedUser.length > 0) {
+			const randomIndex = Math.floor(
+				Math.random() * chatsWithTaggedUser.length,
+			);
 
-		const chosenChat = chatsWithTaggedUser[randomIndex];
+			const chosenChat = chatsWithTaggedUser[randomIndex];
 
-		setChosenChat(chosenChat);
-		setLastPlayer(chosenChat.username);
+			setChosenChat(chosenChat);
+			setLastPlayer(chosenChat.username);
+		}
 	}, [liveChats]);
 
 	useEffect(() => {
 		if (chosenChat) {
 			const trimmedMessage = chosenChat.message.replace(
-				/^@48 Chronicles\s*/,
+				/@(48 Chronicles|48C|48c)\s*/gi,
 				'',
 			);
 

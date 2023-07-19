@@ -188,9 +188,10 @@ export const AppStore: AppStoreInterface = (
 				response.error,
 			);
 		} else {
-			const nextAction = response.story.includes('D20')
-				? 'ROLL_DICE'
-				: 'COUNTDOWN';
+			const nextAction =
+				response.story.includes('D20') || response.story.includes('d20')
+					? 'ROLL_DICE'
+					: 'COUNTDOWN';
 
 			setNextAction(nextAction);
 

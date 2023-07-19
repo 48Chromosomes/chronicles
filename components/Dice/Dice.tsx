@@ -61,16 +61,14 @@ function DiceComponent() {
 					setBox(Box);
 				} else {
 					const randomNumber = weightedRandom();
+					const prompt = `I rolled ${randomNumber}`;
 
 					box.roll(`1d20@${randomNumber}`).then(() => {
 						setNarratorList(`You rolled ${randomNumber}`);
+						sendStoryPrompt({ prompt });
 					});
 
-					const prompt = `I rolled ${randomNumber}`;
-
 					setChatLogs({ role: 'user', content: { story: prompt } });
-
-					sendStoryPrompt({ prompt: `I rolled ${randomNumber}` });
 				}
 
 				rollDice(false);
