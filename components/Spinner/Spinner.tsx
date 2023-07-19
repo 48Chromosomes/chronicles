@@ -13,6 +13,15 @@ export default function Spinner() {
 	const [lastPlayer, setLastPlayer] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (liveChats.length > 0) {
+			const randomIndex = Math.floor(Math.random() * liveChats.length);
+			const chosenChat = liveChats[randomIndex];
+
+			setChosenChat(chosenChat);
+		}
+	}, [liveChats]);
+
+	/* useEffect(() => {
 		let lastChatsOfEachUser: LiveChat[] = [];
 
 		// filter out the chats that have been overwritten by a new message from the same user
@@ -43,7 +52,7 @@ export default function Spinner() {
 			setChosenChat(chosenChat);
 			setLastPlayer(chosenChat.username);
 		}
-	}, [liveChats]);
+	}, [liveChats]); */
 
 	useEffect(() => {
 		if (chosenChat) {
