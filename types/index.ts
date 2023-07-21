@@ -19,6 +19,7 @@ export type AppStoreInterface = (
 	mobile: boolean;
 	replayIndex: number;
 	replay: boolean;
+	forceRoll: number;
 	setReplay: (replay: boolean) => void;
 	setReplayIndex: (replayIndex: number) => void;
 	setMobile: (mobile: boolean) => void;
@@ -37,6 +38,7 @@ export type AppStoreInterface = (
 	sendStoryPrompt: ({ prompt }: { prompt: string }) => void;
 	setBackgroundImage: (background: string) => void;
 	sendBackgroundImagePrompt: ({ chatLogs }: { chatLogs: ChatLog[] }) => void;
+	forceRollDice: (forceRoll: number) => void;
 	rollDice: (shouldRoll: boolean) => void;
 	updateLiveChats: () => void;
 	setVideoId: (videoId: string) => void;

@@ -14,6 +14,7 @@ export default function Replay() {
 		setNarratorList,
 		narrationEnd,
 		setBackgroundImage,
+		forceRollDice,
 	} = useAppStore();
 
 	useEffect(() => {
@@ -34,6 +35,11 @@ export default function Replay() {
 
 				if (playLog.content.image) {
 					setBackgroundImage(playLog.content.image);
+				}
+
+				if (playLog.content.story.includes('I rolled')) {
+					const diceRoll = playLog.content.story.split('I rolled')[1].trim();
+					forceRollDice(Number(diceRoll));
 				}
 
 				await setNarratorList(playLog.content.story);

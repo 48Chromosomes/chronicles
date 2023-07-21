@@ -9,14 +9,20 @@ import { weightedRandom } from '@/utilities';
 import { useAppStore } from '@/stores/AppStore';
 
 function DiceComponent() {
-	const { roll, rollDice, setNarratorList, sendStoryPrompt, setChatLogs } =
-		useAppStore();
+	const {
+		roll,
+		rollDice,
+		setNarratorList,
+		sendStoryPrompt,
+		setChatLogs,
+		forceRoll,
+	} = useAppStore();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [box, setBox] = useState<any>(null);
 	const appDivRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		if (roll) {
+		if (roll || forceRoll) {
 			const removeExtraCanvas = () => {
 				const { current: appDiv } = appDivRef;
 
@@ -60,7 +66,7 @@ function DiceComponent() {
 
 					setBox(Box);
 				} else {
-					const randomNumber = weightedRandom();
+					const randomNumber = forceRoll || weightedRandom();
 					const prompt = `I rolled ${randomNumber}`;
 
 					box.roll(`1d20@${randomNumber}`).then(() => {
@@ -75,7 +81,7 @@ function DiceComponent() {
 				setTimeout(() => setVisible(false), 6000);
 			})();
 		}
-	}, [roll]);
+	}, [roll, forceRoll]);
 
 	return (
 		<div

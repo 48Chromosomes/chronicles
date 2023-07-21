@@ -33,6 +33,7 @@ export const AppStore: AppStoreInterface = (
 	mobile: false,
 	replayIndex: -0,
 	replay: false,
+	forceRoll: 0,
 	setReplay: (replay: boolean) => {
 		set({ replay });
 	},
@@ -249,6 +250,9 @@ export const AppStore: AppStoreInterface = (
 	},
 	rollDice: (shouldRoll: boolean) => {
 		set({ roll: shouldRoll });
+	},
+	forceRollDice: (forceRoll: number) => {
+		set({ forceRoll });
 	},
 	narrationEnd: async () => {
 		await new Promise((resolve) => {
