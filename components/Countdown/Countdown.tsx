@@ -11,7 +11,8 @@ const caladea = Caladea({ weight: '700', subsets: ['latin'], style: 'italic' });
 const countdownTime = 30;
 
 function Countdown() {
-	const { countdown, setCountdown, updateLiveChats } = useAppStore();
+	const { countdown, setCountdown, updateLiveChats, setShouldSelectLiveChat } =
+		useAppStore();
 	const [countdownEnded, setCountdownEnded] = useState(true);
 	const [count, setCount] = useState(countdownTime);
 
@@ -26,6 +27,7 @@ function Countdown() {
 
 				return () => clearInterval(id);
 			} else {
+				setShouldSelectLiveChat(true);
 				updateLiveChats();
 				setCountdown(false);
 				setCountdownEnded(true);

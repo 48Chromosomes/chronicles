@@ -7,13 +7,19 @@ import { LiveChat } from '@/types';
 import { useAppStore } from '@/stores/AppStore';
 
 export default function Spinner() {
-	const { liveChats, sendStoryPrompt, setNarratorList, setChatLogs } =
-		useAppStore();
+	const {
+		liveChats,
+		sendStoryPrompt,
+		setNarratorList,
+		setChatLogs,
+		shouldSelectLiveChat,
+		setShouldSelectLiveChat,
+	} = useAppStore();
 	const [chosenChat, setChosenChat] = useState<LiveChat | null>(null);
 	const [lastPlayer, setLastPlayer] = useState<string | null>(null);
 
 	useEffect(() => {
-		if (liveChats.length > 0) {
+		if (liveChats.length > 0 && shouldSelectLiveChat) {
 			const chatsWithTaggedUser = liveChats.filter(
 				(object) => object.includesTaggedUser,
 			);
@@ -25,6 +31,7 @@ export default function Spinner() {
 			const chosenChat = chatsWithTaggedUser[randomIndex];
 
 			setChosenChat(chosenChat);
+			setShouldSelectLiveChat(false);
 		}
 	}, [liveChats]);
 

@@ -20,6 +20,8 @@ export type AppStoreInterface = (
 	replayIndex: number;
 	replay: boolean;
 	forceRoll: number;
+	shouldSelectLiveChat: boolean;
+	setShouldSelectLiveChat: (shouldSelectLiveChat: boolean) => void;
 	setReplay: (replay: boolean) => void;
 	setReplayIndex: (replayIndex: number) => void;
 	setMobile: (mobile: boolean) => void;

@@ -34,6 +34,10 @@ export const AppStore: AppStoreInterface = (
 	replayIndex: -0,
 	replay: false,
 	forceRoll: 0,
+	shouldSelectLiveChat: false,
+	setShouldSelectLiveChat: (shouldSelectLiveChat: boolean) => {
+		set({ shouldSelectLiveChat });
+	},
 	setReplay: (replay: boolean) => {
 		set({ replay });
 	},
