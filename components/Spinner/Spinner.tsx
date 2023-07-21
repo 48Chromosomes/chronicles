@@ -14,10 +14,12 @@ export default function Spinner() {
 
 	useEffect(() => {
 		if (liveChats.length > 0) {
-			const randomIndex = Math.floor(Math.random() * liveChats.length);
-
 			const chatsWithTaggedUser = liveChats.filter(
 				(object) => object.includesTaggedUser,
+			);
+
+			const randomIndex = Math.floor(
+				Math.random() * chatsWithTaggedUser.length,
 			);
 
 			const chosenChat = chatsWithTaggedUser[randomIndex];
@@ -66,7 +68,10 @@ export default function Spinner() {
 				'',
 			);
 
-			setChatLogs({ role: 'user', content: { story: trimmedMessage } });
+			setChatLogs({
+				role: 'user',
+				content: { story: trimmedMessage, author: chosenChat.username },
+			});
 
 			sendStoryPrompt({ prompt: trimmedMessage });
 
