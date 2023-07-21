@@ -12,7 +12,7 @@ export default function ReplaySwitch() {
 
 	return (
 		<div className={styles.ratioSwitch} onClick={toggleReplay}>
-			{!replay && (
+			{replay && (
 				<Image
 					alt="Toggle replay"
 					src="/images/replay.png"
@@ -21,7 +21,7 @@ export default function ReplaySwitch() {
 				/>
 			)}
 
-			{replay && (
+			{!replay && (
 				<Image
 					alt="Toggle replay"
 					src="/images/live.png"

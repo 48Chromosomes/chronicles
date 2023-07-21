@@ -9,13 +9,14 @@ import { useAppStore } from '@/stores/AppStore';
 const heebo = Heebo({ weight: '300', subsets: ['latin'], style: 'normal' });
 const comme = Comme({ weight: '500', subsets: ['latin'], style: 'normal' });
 
-export default function Character() {
+export default function Character({ mobile }: { mobile: boolean }) {
 	const { narrating, waiting, character, characterImage } = useAppStore();
 
 	return (
 		<div
 			className={cx(styles.characterContainer, {
 				[styles.faded]: narrating || waiting,
+				[styles.mobile]: mobile,
 			})}
 		>
 			<div className={cx(styles.characterSheet, heebo.className)}>

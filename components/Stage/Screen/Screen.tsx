@@ -55,7 +55,7 @@ export default function Screen() {
 			style={{ width: ratio.width, height: ratio.height }}
 			ref={stageRef}
 		>
-			{character && <Character />}
+			{character && <Character mobile={mobile} />}
 			<Narrator />
 			<Waiting />
 			<Dice />
