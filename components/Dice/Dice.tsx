@@ -16,13 +16,14 @@ function DiceComponent() {
 		sendStoryPrompt,
 		setChatLogs,
 		forceRoll,
+		forceRollDice,
 	} = useAppStore();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [box, setBox] = useState<any>(null);
 	const appDivRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		if (roll || forceRoll) {
+		if (roll || forceRoll > 0) {
 			const removeExtraCanvas = () => {
 				const { current: appDiv } = appDivRef;
 
@@ -71,7 +72,11 @@ function DiceComponent() {
 
 					box.roll(`1d20@${randomNumber}`).then(() => {
 						setNarratorList(`You rolled ${randomNumber}`);
-						sendStoryPrompt({ prompt });
+
+						if (forceRoll === 0) {
+							sendStoryPrompt({ prompt });
+							forceRollDice(0);
+						}
 					});
 
 					setChatLogs({ role: 'user', content: { story: prompt } });
