@@ -29,9 +29,7 @@ export default function Replay() {
 				let index = replayIndex;
 
 				if (playLog.role === 'user' && playLog.content.author) {
-					setNarratorList(
-						`${playLog.content.author} has been chosen. ${playLog.content.story}`,
-					);
+					setNarratorList(`${playLog.content.author} has been chosen.`);
 				}
 
 				if (playLog.content.image) {
@@ -42,7 +40,7 @@ export default function Replay() {
 
 				await narrationEnd();
 
-				setReplayIndex(++index);
+				setReplayIndex(index++);
 			}
 		})();
 	}, [replayIndex]);
