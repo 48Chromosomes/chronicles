@@ -13,27 +13,36 @@ export default function Replay() {
 		chatLogs,
 		setNarratorList,
 		narrationEnd,
+		setBackgroundImage,
 	} = useAppStore();
 
 	useEffect(() => {
 		(async () => {
-			const playFrom: ChatLog | undefined = chatLogs.find(
+			const playLog: ChatLog | undefined = chatLogs.find(
 				(log) => log.content.index === replayIndex,
 			);
 
-			console.log('playFrom', playFrom);
+			console.log('playFrom', playLog);
 			console.log('replayIndex', replayIndex);
 
-			if (replayIndex !== -1 && playFrom) {
+			if (replayIndex !== -1 && playLog) {
 				let index = replayIndex;
 
-				setNarratorList(playFrom.content.story);
+				if (playLog.role === 'user' && playLog.content.author) {
+					setNarratorList(
+						`${playLog.content.author} has been chosen. ${playLog.content.story}`,
+					);
+				}
+
+				if (playLog.content.image) {
+					setBackgroundImage(playLog.content.image);
+				}
+
+				await setNarratorList(playLog.content.story);
 
 				await narrationEnd();
 
 				setReplayIndex(++index);
-			} else {
-				setReplayIndex(-1);
 			}
 		})();
 	}, [replayIndex]);

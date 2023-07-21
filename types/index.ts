@@ -35,6 +35,7 @@ export type AppStoreInterface = (
 	setNarratorList: (text: string) => void;
 	sendBeginGamePrompt: () => void;
 	sendStoryPrompt: ({ prompt }: { prompt: string }) => void;
+	setBackgroundImage: (background: string) => void;
 	sendBackgroundImagePrompt: ({ chatLogs }: { chatLogs: ChatLog[] }) => void;
 	rollDice: (shouldRoll: boolean) => void;
 	updateLiveChats: () => void;

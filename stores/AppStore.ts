@@ -228,9 +228,15 @@ export const AppStore: AppStoreInterface = (
 			performNextAction();
 		}
 	},
-	sendBackgroundImagePrompt: async ({ chatLogs }: { chatLogs: ChatLog[] }) => {
-		const background = await getBackgroundImage({ chatLogs });
+	setBackgroundImage: (background: string) => {
 		set({ background });
+	},
+	sendBackgroundImagePrompt: async ({ chatLogs }: { chatLogs: ChatLog[] }) => {
+		const { setBackgroundImage } = get();
+
+		const background = await getBackgroundImage({ chatLogs });
+
+		setBackgroundImage(background);
 
 		const userChatLogs = chatLogs.filter((log) => log.role === 'user');
 		const lastUserChatLog = userChatLogs[userChatLogs.length - 1];
