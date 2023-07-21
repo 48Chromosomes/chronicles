@@ -12,22 +12,34 @@
 		overflow-y: scroll;
 		height: 95vh;
 
-		.log {
-			background-color: #fff;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			padding: 15px 20px;
-			margin-bottom: 10px;
-		}
+		.chatLog {
+			position: relative;
 
-		.roll {
-			background-color: #bb4949;
-			color: #fff;
-			border-radius: 5px;
-			padding: 10px 20px;
-			margin-bottom: 10px;
-			text-transform: uppercase;
-			font-size: 12px;
+			.log {
+				background-color: #fff;
+				border-radius: 5px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+				padding: 15px 20px;
+				margin-bottom: 10px;
+
+				&.replaying {
+					background-color: antiquewhite;
+				}
+			}
+
+			.actions {
+				position: absolute;
+				top: 15px;
+				right: 15px;
+				opacity: 0;
+			}
+
+			&:hover {
+				.actions {
+					opacity: 0.5;
+					cursor: pointer;
+				}
+			}
 		}
 
 		.loader {

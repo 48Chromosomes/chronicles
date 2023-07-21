@@ -33,13 +33,14 @@ export default function Actions() {
 		rollDice,
 		setWaiting,
 		setNarrating,
-		toggleMusic,
+		setMusic,
 		setCountdown,
 		videoId,
 		setVideoId,
 		updateLiveChats,
 		setChatLogs,
 		toggleStandby,
+		playMusic,
 	} = useAppStore();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [shouldShowVideoIdModal, setShouldShowVideoIdModal] =
@@ -91,7 +92,7 @@ export default function Actions() {
 
 	const stopNarration = () => setNarrating(false);
 
-	const changeMusic = () => toggleMusic();
+	const changeMusic = () => setMusic(!playMusic);
 
 	const toggleCountdown = () => setCountdown(!countdown);
 

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
+import cx from 'classnames';
 
 import styles from './Console.module.scss';
 
@@ -9,8 +10,15 @@ import { useAppStore } from '@/stores/AppStore';
 import { ChatLog } from '@/types';
 
 export default function Console() {
-	const { character, chatLogs, setChatLogs, sendStoryPrompt, waiting } =
-		useAppStore();
+	const {
+		character,
+		chatLogs,
+		setChatLogs,
+		sendStoryPrompt,
+		waiting,
+		replayIndex,
+		setReplayIndex,
+	} = useAppStore();
 	const messageListRef = useRef<HTMLDivElement>(null);
 	const textInputRef = useRef<HTMLInputElement>(null);
 	const formRef = useRef<HTMLFormElement>(null);
@@ -29,7 +37,10 @@ export default function Console() {
 
 		setQuery('');
 
-		setChatLogs({ role: 'user', content: { story: prompt } });
+		setChatLogs({
+			role: 'user',
+			content: { story: prompt, author: 'Based Ape' },
+		});
 
 		try {
 			await sendStoryPrompt({ prompt });
@@ -59,12 +70,39 @@ export default function Console() {
 
 					{chatLogs &&
 						[...chatLogs].reverse().map((log: ChatLog, index: number) => (
-							<div key={index}>
-								<div className={styles.log}>{log.content?.story}</div>
+							<div className={styles.chatLog} key={index}>
+								<div
+									className={cx(styles.log, {
+										[styles.replaying]: replayIndex === log.content.index,
+									})}
+								>
+									{log.content?.story}
 
-								{/* {log.content?.roll_dice && (
-									<div className={styles.roll}>Dice roll required</div>
-								)} */}
+									<div className={styles.actions}>
+										{replayIndex === -1 && log.content.index && (
+											<Image
+												src="/images/play.png"
+												alt="Play"
+												width={20}
+												height={20}
+												onClick={() => {
+													if (log.content.index)
+														setReplayIndex(log.content.index);
+												}}
+											/>
+										)}
+
+										{replayIndex >= 0 && log.content.index && (
+											<Image
+												src="/images/stop.png"
+												alt="Stop"
+												width={20}
+												height={20}
+												onClick={() => setReplayIndex(-1)}
+											/>
+										)}
+									</div>
+								</div>
 							</div>
 						))}
 				</div>

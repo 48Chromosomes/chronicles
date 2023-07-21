@@ -1,4 +1,4 @@
-import { ChatLog, Character, StorySegment } from '@/types';
+import { Roles, ChatLog, Character, StorySegment } from '@/types';
 
 export type FetchParams = {
 	endpoint: string;

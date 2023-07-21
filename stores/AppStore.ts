@@ -30,13 +30,24 @@ export const AppStore: AppStoreInterface = (
 	videoId: '',
 	standby: false,
 	nextAction: '',
+	mobile: false,
+	replayIndex: -0,
+	replay: false,
+	setReplay: (replay: boolean) => {
+		set({ replay });
+	},
+	setReplayIndex: (replayIndex: number) => {
+		set({ replayIndex });
+	},
+	setMobile: (mobile: boolean) => {
+		set({ mobile });
+	},
 	toggleStandby: () => {
 		const { standby } = get();
 		set({ standby: !standby });
 	},
-	toggleMusic: () => {
-		const { playMusic } = get();
-		set({ playMusic: !playMusic });
+	setMusic: (playMusic: boolean) => {
+		set({ playMusic });
 	},
 	setWaiting: (waiting: boolean) => {
 		set({ waiting });
@@ -62,6 +73,12 @@ export const AppStore: AppStoreInterface = (
 			characterImage: '',
 		}),
 	setChatLogs: ({ role, content }: ChatLog) => {
+		const { chatLogs } = get();
+
+		content.index = chatLogs.length;
+
+		console.log({ role, content });
+
 		set((state: any) => ({
 			chatLogs: [...state.chatLogs, { role, content }],
 		}));
@@ -80,7 +97,6 @@ export const AppStore: AppStoreInterface = (
 	setNarrating: (narrating: boolean) => {
 		set({ narrating, ...(narrating ? {} : { narratorList: [] }) });
 	},
-	sendIntroPrompt: async () => {},
 	sendBeginGamePrompt: async () => {
 		const {
 			chatLogs,
@@ -89,7 +105,7 @@ export const AppStore: AppStoreInterface = (
 			setChatLogs,
 			setNarratorList,
 			sendBackgroundImagePrompt,
-			toggleMusic,
+			setMusic,
 			setNextAction,
 			narrationEnd,
 			performNextAction,
@@ -97,11 +113,11 @@ export const AppStore: AppStoreInterface = (
 
 		setNarratorList('Let us begin..');
 
-		toggleMusic();
+		setMusic(true);
 
 		setWaiting(true);
 
-		const prompt = { story: 'Begin game' };
+		const prompt = { story: 'Begin game', index: chatLogs.length };
 
 		setChatLogs({ role: 'user', content: prompt });
 
@@ -215,6 +231,15 @@ export const AppStore: AppStoreInterface = (
 	sendBackgroundImagePrompt: async ({ chatLogs }: { chatLogs: ChatLog[] }) => {
 		const background = await getBackgroundImage({ chatLogs });
 		set({ background });
+
+		const userChatLogs = chatLogs.filter((log) => log.role === 'user');
+		const lastUserChatLog = userChatLogs[userChatLogs.length - 1];
+
+		if (lastUserChatLog && lastUserChatLog.content.index) {
+			lastUserChatLog.content.image = background;
+			chatLogs[lastUserChatLog.content.index];
+			set({ chatLogs });
+		}
 	},
 	rollDice: (shouldRoll: boolean) => {
 		set({ roll: shouldRoll });

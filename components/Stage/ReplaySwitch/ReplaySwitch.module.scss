@@ -1,0 +1,10 @@
+.ratioSwitch {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+
+	&.active {
+		filter: hue-rotate(180deg);
+	}
+}

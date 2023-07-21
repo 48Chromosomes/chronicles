@@ -9,6 +9,9 @@ const Console = dynamic(() => import('@/components/Console/Console'), {
 const Actions = dynamic(() => import('@/components/Actions/Actions'), {
 	ssr: false,
 });
+const Music = dynamic(() => import('@/components/Music/Music'), {
+	ssr: false,
+});
 
 export default function Home() {
 	return (
@@ -18,6 +21,7 @@ export default function Home() {
 			</Head>
 
 			<main>
+				<Music />
 				<Stage />
 				<Actions />
 				<Console />

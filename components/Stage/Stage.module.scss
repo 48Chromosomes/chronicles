@@ -1,37 +1,9 @@
 .stageContainer {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
 	position: relative;
 	margin: 30px;
-	width: 1024px;
-
-	.stage {
-		position: absolute;
-		overflow: hidden;
-		background-color: #000;
-		width: 1024px;
-		height: 576px;
-
-		:hover {
-			cursor: none;
-		}
-
-		.background {
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			right: 0;
-			background-position: center;
-			background-size: cover;
-			transition: opacity 1s ease-in-out;
-			opacity: 1;
-
-			&.fade {
-				opacity: 0;
-			}
-		}
-	}
 }

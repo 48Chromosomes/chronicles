@@ -16,8 +16,14 @@ export type AppStoreInterface = (
 	videoId: string;
 	standby: boolean;
 	nextAction: string;
+	mobile: boolean;
+	replayIndex: number;
+	replay: boolean;
+	setReplay: (replay: boolean) => void;
+	setReplayIndex: (replayIndex: number) => void;
+	setMobile: (mobile: boolean) => void;
 	setCountdown: (countdown: boolean) => void;
-	toggleMusic: () => void;
+	setMusic: (playMusic: boolean) => void;
 	setWaiting: (waiting: boolean) => void;
 	resetChat: () => void;
 	resetCharacter: () => void;
@@ -33,6 +39,7 @@ export type AppStoreInterface = (
 	rollDice: (shouldRoll: boolean) => void;
 	updateLiveChats: () => void;
 	setVideoId: (videoId: string) => void;
+	narrationEnd: () => void;
 	toggleStandby: () => void;
 	setNextAction: (nextAction: string) => void;
 	performNextAction: () => void;
@@ -59,10 +66,15 @@ export interface Character {
 
 export interface StorySegment {
 	story: string;
+	index?: number;
+	image?: string;
+	author?: string;
 }
 
+export type Roles = 'user' | 'assistant';
+
 export interface ChatLog {
-	role: 'user' | 'assistant';
+	role: Roles;
 	content: StorySegment;
 }
 
