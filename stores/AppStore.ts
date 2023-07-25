@@ -16,7 +16,7 @@ export const AppStore: AppStoreInterface = (
 	set: (arg0: any) => void,
 	get: () => any,
 ) => ({
-	background: '/images/background.jpeg',
+	background: '/images/background.png',
 	chatLogs: [],
 	character: null,
 	characterImage: '',
@@ -70,7 +70,7 @@ export const AppStore: AppStoreInterface = (
 			playMusic: false,
 			countdown: false,
 			liveChats: [],
-			background: '/images/background.jpeg',
+			background: '/images/background.png',
 		}),
 	resetCharacter: () =>
 		set({
