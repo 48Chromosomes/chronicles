@@ -67,7 +67,7 @@ function DiceComponent() {
 
 					setBox(Box);
 				} else {
-					const randomNumber = forceRoll || weightedRandom();
+					const randomNumber = weightedRandom();
 					const prompt = `I rolled ${randomNumber}`;
 
 					box.roll(`1d20@${randomNumber}`).then(() => {
