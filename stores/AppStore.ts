@@ -35,6 +35,16 @@ export const AppStore: AppStoreInterface = (
 	replay: false,
 	forceRoll: 0,
 	shouldSelectLiveChat: false,
+	selectedNarrator: 'GCP',
+	toggleNarrator: () => {
+		const { selectedNarrator } = get();
+
+		if (selectedNarrator === 'GCP') {
+			set({ selectedNarrator: 'ElevenLabs' });
+		} else {
+			set({ selectedNarrator: 'GCP' });
+		}
+	},
 	setShouldSelectLiveChat: (shouldSelectLiveChat: boolean) => {
 		set({ shouldSelectLiveChat });
 	},

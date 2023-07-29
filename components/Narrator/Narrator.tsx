@@ -4,13 +4,21 @@ import cx from 'classnames';
 
 import styles from './Narrator.module.scss';
 import { useAppStore } from '@/stores/AppStore';
-import { synthesizeSpeech } from '@/utilities/server';
+import {
+	synthesizeSpeech,
+	synthesizeSpeechElevenLabs,
+} from '@/utilities/server';
 
 const lora = Lora({ weight: '500', subsets: ['latin'], style: 'normal' });
 
 export default function Narrator() {
-	const { narrating, narratorList, setNarratorList, setNarrating } =
-		useAppStore();
+	const {
+		narrating,
+		narratorList,
+		setNarratorList,
+		setNarrating,
+		selectedNarrator,
+	} = useAppStore();
 	const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 	const [fadeNarration, setFadeNarration] = useState(false);
 
@@ -24,10 +32,17 @@ export default function Narrator() {
 				if (currentSentenceIndex < narratorList.length) {
 					setNarrating(true);
 					setFadeNarration(false);
+					let blob;
 
-					const blob = await synthesizeSpeech({
-						text: narratorList[currentSentenceIndex],
-					});
+					if (selectedNarrator === 'GCP') {
+						blob = await synthesizeSpeech({
+							text: narratorList[currentSentenceIndex],
+						});
+					} else {
+						blob = await synthesizeSpeechElevenLabs({
+							text: narratorList[currentSentenceIndex],
+						});
+					}
 
 					const url = URL.createObjectURL(blob);
 

@@ -23,9 +23,6 @@ export default function Replay() {
 				(log) => log.content.index === replayIndex,
 			);
 
-			console.log('playFrom', playLog);
-			console.log('replayIndex', replayIndex);
-
 			if (replayIndex !== -1 && playLog) {
 				let index = replayIndex;
 
@@ -45,8 +42,6 @@ export default function Replay() {
 				await setNarratorList(playLog.content.story);
 
 				await narrationEnd();
-
-				console.log(index++);
 
 				setReplayIndex(index++);
 			}

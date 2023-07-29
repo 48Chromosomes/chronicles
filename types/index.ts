@@ -21,6 +21,8 @@ export type AppStoreInterface = (
 	replay: boolean;
 	forceRoll: number;
 	shouldSelectLiveChat: boolean;
+	selectedNarrator: string;
+	toggleNarrator: () => void;
 	setShouldSelectLiveChat: (shouldSelectLiveChat: boolean) => void;
 	resetForceRoll: () => void;
 	setReplay: (replay: boolean) => void;

@@ -144,6 +144,26 @@ export const synthesizeSpeech = async ({ text }: { text: string }) => {
 	return audio;
 };
 
+export const synthesizeSpeechElevenLabs = async ({
+	text,
+}: {
+	text: string;
+}) => {
+	const response: Response = await fetch(`${url}/chronicles/elevenlabs`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			text,
+		}),
+	});
+
+	const audio: Blob = await response.blob();
+
+	return audio;
+};
+
 export const getLiveChats = async ({ videoId }: { videoId: string }) => {
 	const response = await api({
 		endpoint: '/chronicles/livechat',
