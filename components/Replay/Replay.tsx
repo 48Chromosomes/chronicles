@@ -46,6 +46,8 @@ export default function Replay() {
 
 				await narrationEnd();
 
+				console.log(index++);
+
 				setReplayIndex(index++);
 			}
 		})();

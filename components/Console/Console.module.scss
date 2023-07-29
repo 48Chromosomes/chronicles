@@ -25,6 +25,43 @@
 				&.replaying {
 					background-color: antiquewhite;
 				}
+
+				.info {
+					position: relative;
+
+					p {
+						font-size: 12px;
+						opacity: 0.5;
+						margin: 0;
+						padding: 0;
+					}
+
+					hr {
+						margin: 10px 0;
+						opacity: 0.5;
+					}
+
+					.image {
+						position: absolute;
+						right: 0;
+						top: 10px;
+
+						.imageIcon {
+							opacity: 0.5;
+							float: right;
+						}
+
+						.imagePreview {
+							display: none;
+						}
+
+						&:hover {
+							.imagePreview {
+								display: block;
+							}
+						}
+					}
+				}
 			}
 
 			.actions {

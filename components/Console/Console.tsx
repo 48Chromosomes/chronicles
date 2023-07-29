@@ -78,6 +78,43 @@ export default function Console() {
 								>
 									{log.content?.story}
 
+									<div className={styles.info}>
+										<hr />
+
+										{log.role === 'user' && (
+											<>
+												<p>
+													{log.content?.index} {log.content?.author || 'System'}
+												</p>
+
+												{log.content?.image && (
+													<div className={styles.image}>
+														<Image
+															className={styles.imageIcon}
+															src="/images/image.png"
+															alt="image"
+															width={15}
+															height={15}
+														/>
+
+														<div className={styles.imagePreview}>
+															<Image
+																src={log.content?.image}
+																alt="image"
+																width={100}
+																height={65}
+															/>
+														</div>
+													</div>
+												)}
+											</>
+										)}
+
+										{log.role === 'assistant' && (
+											<p>{log.content?.index} Narrator</p>
+										)}
+									</div>
+
 									<div className={styles.actions}>
 										{replayIndex === -1 && log.content.index && (
 											<Image

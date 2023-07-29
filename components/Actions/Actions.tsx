@@ -41,6 +41,7 @@ export default function Actions() {
 		setChatLogs,
 		toggleStandby,
 		playMusic,
+		resetForceRoll,
 	} = useAppStore();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [shouldShowVideoIdModal, setShouldShowVideoIdModal] =
@@ -84,28 +85,12 @@ export default function Actions() {
 		}
 	};
 
-	const toggleWaiting = () => setWaiting(!waiting);
-
-	const resetStory = () => resetChat();
-
-	const rollDiceAction = () => rollDice(true);
-
-	const stopNarration = () => setNarrating(false);
-
-	const changeMusic = () => setMusic(!playMusic);
-
-	const toggleCountdown = () => setCountdown(!countdown);
-
 	const setVideoIdStore = async (videoId: string) => {
 		setVideoId(videoId);
 		setShouldShowVideoIdModal(false);
 	};
 
 	const showVideoIdModal = () => setShouldShowVideoIdModal(true);
-
-	const selectLiveChat = () => {
-		updateLiveChats();
-	};
 
 	const cancelAll = () => {
 		cancelAllRequests();
@@ -166,27 +151,29 @@ export default function Actions() {
 
 				<Button
 					label="Reset Story"
-					onClick={resetStory}
+					onClick={() => resetChat()}
 					disabled={chatLogs.length === 0}
 				/>
 
 				<Divider label="Choices" />
 
-				<Button label="Roll dice" onClick={rollDiceAction} />
+				<Button label="Roll dice" onClick={() => rollDice(true)} />
 
-				<Button label="Countdown" onClick={toggleCountdown} />
+				<Button label="Countdown" onClick={() => setCountdown(!countdown)} />
 
 				<Divider label="Controls" />
 
 				<Button label="Get background" onClick={getBackgroundImage} />
 
-				<Button label="Toggle waiting" onClick={toggleWaiting} />
+				<Button label="Toggle waiting" onClick={() => setWaiting(!waiting)} />
 
-				<Button label="Toggle music" onClick={changeMusic} />
+				<Button label="Toggle music" onClick={() => setMusic(!playMusic)} />
 
 				<Button label="Toggle standby" onClick={toggleStandbyScreen} />
 
-				<Button label="Select live chat" onClick={selectLiveChat} />
+				<Button label="Reset force roll" onClick={() => resetForceRoll()} />
+
+				<Button label="Select live chat" onClick={() => updateLiveChats()} />
 
 				<Button label="Cancel requests" onClick={cancelAll} />
 
@@ -220,7 +207,7 @@ export default function Actions() {
 
 				<Button
 					label="Stop Narration"
-					onClick={stopNarration}
+					onClick={() => setNarrating(false)}
 					disabled={!narrating}
 				/>
 

@@ -73,10 +73,11 @@ function DiceComponent() {
 					box.roll(`1d20@${randomNumber}`).then(() => {
 						setNarratorList(`You rolled ${randomNumber}`);
 
-						/* if (forceRoll === 0) { */
-						sendStoryPrompt({ prompt });
-						forceRollDice(0);
-						/* } */
+						if (forceRoll === 0) {
+							sendStoryPrompt({ prompt });
+						} else {
+							forceRollDice(0);
+						}
 					});
 
 					setChatLogs({ role: 'user', content: { story: prompt } });
