@@ -93,7 +93,7 @@ export const storyPromptRequest = async ({
 	character,
 }: StoryPromptParams) => {
 	const filteredChatLogs =
-		chatLogs.length <= 80
+		chatLogs.length <= 70
 			? chatLogs
 			: [...chatLogs.slice(0, 20), ...chatLogs.slice(-50)];
 
