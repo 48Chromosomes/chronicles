@@ -122,8 +122,6 @@ export default function Actions() {
 		audio.play();
 	};
 
-	const toggleStandbyScreen = () => toggleStandby();
-
 	return (
 		<div className={styles.actionsContainer}>
 			<div className={styles.actions}>
@@ -169,7 +167,7 @@ export default function Actions() {
 
 				<Button label="Toggle music" onClick={() => setMusic(!playMusic)} />
 
-				<Button label="Toggle standby" onClick={toggleStandbyScreen} />
+				<Button label="Toggle standby" onClick={() => toggleStandby()} />
 
 				<Button label="Reset force roll" onClick={() => resetForceRoll()} />
 

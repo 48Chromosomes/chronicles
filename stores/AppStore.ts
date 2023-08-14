@@ -95,8 +95,6 @@ export const AppStore: AppStoreInterface = (
 
 		content.index = chatLogs.length;
 
-		console.log({ role, content });
-
 		set((state: any) => ({
 			chatLogs: [...state.chatLogs, { role, content }],
 		}));
@@ -256,13 +254,15 @@ export const AppStore: AppStoreInterface = (
 
 		setBackgroundImage(background);
 
-		const userChatLogs = chatLogs.filter((log) => log.role === 'user');
+		const { chatLogs: logs } = get();
+
+		const userChatLogs = logs.filter((log: ChatLog) => log.role === 'user');
 		const lastUserChatLog = userChatLogs[userChatLogs.length - 1];
 
 		if (lastUserChatLog && lastUserChatLog.content.index) {
 			lastUserChatLog.content.image = background;
-			chatLogs[lastUserChatLog.content.index];
-			set({ chatLogs });
+			logs[lastUserChatLog.content.index];
+			set({ chatLogs: logs });
 		}
 	},
 	rollDice: (shouldRoll: boolean) => {

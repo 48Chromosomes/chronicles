@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import Screen from '@/components/Stage/Screen/Screen';
 
@@ -15,6 +15,7 @@ export default function Replay() {
 		narrationEnd,
 		setBackgroundImage,
 		forceRollDice,
+		rollDice,
 	} = useAppStore();
 
 	useEffect(() => {
@@ -23,11 +24,13 @@ export default function Replay() {
 				(log) => log.content.index === replayIndex,
 			);
 
-			if (replayIndex !== -1 && playLog) {
-				let index = replayIndex;
+			console.log(replayIndex);
 
+			if (replayIndex !== -1 && playLog) {
 				if (playLog.role === 'user' && playLog.content.author) {
-					setNarratorList(`${playLog.content.author} has been chosen.`);
+					setNarratorList(
+						`${playLog.content.author} was chosen from the livechat.`,
+					);
 				}
 
 				if (playLog.content.image) {
@@ -37,13 +40,15 @@ export default function Replay() {
 				if (playLog.content.story.includes('I rolled')) {
 					const diceRoll = playLog.content.story.split('I rolled')[1].trim();
 					forceRollDice(Number(diceRoll));
+					await rollDice(true);
+					await narrationEnd();
+				} else {
+					await setNarratorList(playLog.content.story);
+					await narrationEnd();
 				}
 
-				await setNarratorList(playLog.content.story);
-
-				await narrationEnd();
-
-				setReplayIndex(index++);
+				if (replayIndex === chatLogs.length - 1) setReplayIndex(-1);
+				else setReplayIndex(replayIndex + 1);
 			}
 		})();
 	}, [replayIndex]);
