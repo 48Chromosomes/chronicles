@@ -32,7 +32,7 @@ export default function Replay() {
 				if (playLog.content.story.includes('I rolled')) {
 					const diceRoll = playLog.content.story.split('I rolled')[1].trim();
 					forceRollDice(Number(diceRoll));
-					rollDice(true);
+					await rollDice(true);
 					await narrationEnd();
 				} else {
 					const segmentString =
