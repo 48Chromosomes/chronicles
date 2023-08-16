@@ -18,14 +18,14 @@ export type AppStoreInterface = (
 	nextAction: string;
 	mobile: boolean;
 	replayIndex: number;
-	replay: boolean;
+	showReplayScreen: boolean;
 	forceRoll: number;
 	shouldSelectLiveChat: boolean;
 	selectedNarrator: string;
 	toggleNarrator: () => void;
 	setShouldSelectLiveChat: (shouldSelectLiveChat: boolean) => void;
 	resetForceRoll: () => void;
-	setReplay: (replay: boolean) => void;
+	setShowReplayScreen: (replay: boolean) => void;
 	setReplayIndex: (replayIndex: number) => void;
 	setMobile: (mobile: boolean) => void;
 	setCountdown: (countdown: boolean) => void;

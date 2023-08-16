@@ -32,7 +32,7 @@ export const AppStore: AppStoreInterface = (
 	nextAction: '',
 	mobile: false,
 	replayIndex: -0,
-	replay: false,
+	showReplayScreen: false,
 	forceRoll: 0,
 	shouldSelectLiveChat: false,
 	selectedNarrator: 'GCP',
@@ -51,8 +51,8 @@ export const AppStore: AppStoreInterface = (
 	resetForceRoll: () => {
 		set({ forceRoll: 0 });
 	},
-	setReplay: (replay: boolean) => {
-		set({ replay });
+	setShowReplayScreen: (showReplayScreen: boolean) => {
+		set({ showReplayScreen });
 	},
 	setReplayIndex: (replayIndex: number) => {
 		set({ replayIndex });

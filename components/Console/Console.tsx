@@ -18,6 +18,8 @@ export default function Console() {
 		waiting,
 		replayIndex,
 		setReplayIndex,
+		setNarrating,
+		showReplayScreen,
 	} = useAppStore();
 	const messageListRef = useRef<HTMLDivElement>(null);
 	const textInputRef = useRef<HTMLInputElement>(null);
@@ -51,6 +53,11 @@ export default function Console() {
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) =>
 		setQuery(event.target.value);
+
+	const stopReplay = () => {
+		setReplayIndex(-1);
+		setNarrating(false);
+	};
 
 	return (
 		<>
@@ -115,30 +122,32 @@ export default function Console() {
 										)}
 									</div>
 
-									<div className={styles.actions}>
-										{replayIndex === -1 && log.content.index && (
-											<Image
-												src="/images/play.png"
-												alt="Play"
-												width={20}
-												height={20}
-												onClick={() => {
-													if (log.content.index)
-														setReplayIndex(log.content.index);
-												}}
-											/>
-										)}
+									{showReplayScreen && (
+										<div className={styles.actions}>
+											{replayIndex === -1 && log.content.index && (
+												<Image
+													src="/images/play.png"
+													alt="Play"
+													width={20}
+													height={20}
+													onClick={() => {
+														if (log.content.index)
+															setReplayIndex(log.content.index);
+													}}
+												/>
+											)}
 
-										{replayIndex >= 0 && log.content.index && (
-											<Image
-												src="/images/stop.png"
-												alt="Stop"
-												width={20}
-												height={20}
-												onClick={() => setReplayIndex(-1)}
-											/>
-										)}
-									</div>
+											{replayIndex >= 0 && log.content.index && (
+												<Image
+													src="/images/stop.png"
+													alt="Stop"
+													width={20}
+													height={20}
+													onClick={stopReplay}
+												/>
+											)}
+										</div>
+									)}
 								</div>
 							</div>
 						))}

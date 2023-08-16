@@ -12,7 +12,7 @@ export default function RatioSwitch() {
 
 	return (
 		<div className={styles.ratioSwitch} onClick={toggleMobile}>
-			<Image alt="Switch view" src="/images/ratio.png" height={30} width={30} />
+			<Image alt="Switch view" src="/images/ratio.png" height={20} width={20} />
 		</div>
 	);
 }

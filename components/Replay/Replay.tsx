@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import Screen from '@/components/Stage/Screen/Screen';
 
@@ -24,15 +24,7 @@ export default function Replay() {
 				(log) => log.content.index === replayIndex,
 			);
 
-			console.log(replayIndex);
-
 			if (replayIndex !== -1 && playLog) {
-				if (playLog.role === 'user' && playLog.content.author) {
-					setNarratorList(
-						`${playLog.content.author} was chosen from the livechat.`,
-					);
-				}
-
 				if (playLog.content.image) {
 					setBackgroundImage(playLog.content.image);
 				}
@@ -40,10 +32,15 @@ export default function Replay() {
 				if (playLog.content.story.includes('I rolled')) {
 					const diceRoll = playLog.content.story.split('I rolled')[1].trim();
 					forceRollDice(Number(diceRoll));
-					await rollDice(true);
+					rollDice(true);
 					await narrationEnd();
 				} else {
-					await setNarratorList(playLog.content.story);
+					const segmentString =
+						playLog.role === 'user' && playLog.content.author
+							? `${playLog.content.author} was chosen from the livechat. ${playLog.content.story}`
+							: playLog.content.story;
+
+					await setNarratorList(segmentString);
 					await narrationEnd();
 				}
 

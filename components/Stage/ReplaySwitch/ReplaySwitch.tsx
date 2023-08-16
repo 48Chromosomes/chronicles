@@ -6,27 +6,27 @@ import styles from './ReplaySwitch.module.scss';
 import { useAppStore } from '@/stores/AppStore';
 
 export default function ReplaySwitch() {
-	const { replay, setReplay } = useAppStore();
+	const { showReplayScreen, setShowReplayScreen } = useAppStore();
 
-	const toggleReplay = () => setReplay(!replay);
+	const toggleReplay = () => setShowReplayScreen(!showReplayScreen);
 
 	return (
 		<div className={styles.ratioSwitch} onClick={toggleReplay}>
-			{replay && (
+			{showReplayScreen && (
 				<Image
 					alt="Toggle replay"
 					src="/images/replay.png"
-					height={30}
-					width={30}
+					height={20}
+					width={20}
 				/>
 			)}
 
-			{!replay && (
+			{!showReplayScreen && (
 				<Image
 					alt="Toggle replay"
 					src="/images/live.png"
-					height={30}
-					width={30}
+					height={20}
+					width={20}
 				/>
 			)}
 		</div>

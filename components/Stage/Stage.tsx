@@ -15,7 +15,7 @@ import { STAGE_WIDTH_DESKTOP } from '@/consts';
 import { useAppStore } from '@/stores/AppStore';
 
 export default function Stage() {
-	const { replay } = useAppStore();
+	const { showReplayScreen } = useAppStore();
 
 	return (
 		<div
@@ -25,7 +25,7 @@ export default function Stage() {
 			<RatioSwitch />
 			<ReplaySwitch />
 
-			{replay ? <Replay /> : <Screen />}
+			{showReplayScreen ? <Replay /> : <Screen />}
 
 			<NextAction />
 			<NarratorSwitch />
