@@ -20,6 +20,7 @@ export default function Console() {
 		setReplayIndex,
 		setNarrating,
 		showReplayScreen,
+		setBackgroundImage,
 	} = useAppStore();
 	const messageListRef = useRef<HTMLDivElement>(null);
 	const textInputRef = useRef<HTMLInputElement>(null);
@@ -110,6 +111,9 @@ export default function Console() {
 																alt="image"
 																width={100}
 																height={65}
+																onClick={() =>
+																	setBackgroundImage(log.content?.image || '')
+																}
 															/>
 														</div>
 													</div>
