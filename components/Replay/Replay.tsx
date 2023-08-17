@@ -26,7 +26,7 @@ export default function Replay() {
 				(log) => log.content.index === replayIndex,
 			);
 
-			if (replaying && playLog) {
+			if (replaying && replayIndex > -1 && playLog) {
 				if (playLog.content.image) {
 					setBackgroundImage(playLog.content.image);
 				}
@@ -60,7 +60,7 @@ export default function Replay() {
 				}
 			}
 		})();
-	}, [replaying]);
+	}, [replaying, replayIndex]);
 
 	return (
 		<>
