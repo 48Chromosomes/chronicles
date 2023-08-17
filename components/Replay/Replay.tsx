@@ -33,12 +33,18 @@ export default function Replay() {
 					const diceRoll = playLog.content.story.split('I rolled')[1].trim();
 					forceRollDice(Number(diceRoll));
 					await rollDice(true);
+					await new Promise((resolve) => setTimeout(resolve, 5000));
 					await narrationEnd();
 				} else {
+					const story = playLog.content.story.replace(
+						'Tag @48 Chronicles in the livechat with your next move - anyone is welcome to play',
+						'',
+					);
+
 					const segmentString =
 						playLog.role === 'user' && playLog.content.author
-							? `${playLog.content.author} was chosen from the livechat. ${playLog.content.story}`
-							: playLog.content.story;
+							? `${playLog.content.author} was chosen from the livechat. ${story}`
+							: story;
 
 					await setNarratorList(segmentString);
 					await narrationEnd();
