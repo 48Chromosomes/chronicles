@@ -36,6 +36,14 @@ export const AppStore: AppStoreInterface = (
 	forceRoll: 0,
 	shouldSelectLiveChat: false,
 	selectedNarrator: 'GCP',
+	replaying: false,
+	startReplaying: () => {
+		set({ replaying: true });
+	},
+	stopReplaying: () => {
+		set({ replaying: false });
+		set({ replayIndex: -1 });
+	},
 	toggleNarrator: () => {
 		const { selectedNarrator } = get();
 

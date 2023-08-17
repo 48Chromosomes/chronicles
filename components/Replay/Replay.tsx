@@ -16,6 +16,8 @@ export default function Replay() {
 		setBackgroundImage,
 		forceRollDice,
 		rollDice,
+		replaying,
+		stopReplaying,
 	} = useAppStore();
 
 	useEffect(() => {
@@ -24,7 +26,7 @@ export default function Replay() {
 				(log) => log.content.index === replayIndex,
 			);
 
-			if (replayIndex !== -1 && playLog) {
+			if (replaying && playLog) {
 				if (playLog.content.image) {
 					setBackgroundImage(playLog.content.image);
 				}
@@ -50,11 +52,15 @@ export default function Replay() {
 					await narrationEnd();
 				}
 
-				if (replayIndex === chatLogs.length - 1) setReplayIndex(-1);
-				else setReplayIndex(replayIndex + 1);
+				if (replayIndex === chatLogs.length - 1) {
+					setReplayIndex(-1);
+					stopReplaying();
+				} else {
+					setReplayIndex(replayIndex + 1);
+				}
 			}
 		})();
-	}, [replayIndex]);
+	}, [replaying]);
 
 	return (
 		<>

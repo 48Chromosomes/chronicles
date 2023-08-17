@@ -21,6 +21,8 @@ export default function Console() {
 		setNarrating,
 		showReplayScreen,
 		setBackgroundImage,
+		startReplaying,
+		stopReplaying,
 	} = useAppStore();
 	const messageListRef = useRef<HTMLDivElement>(null);
 	const textInputRef = useRef<HTMLInputElement>(null);
@@ -56,7 +58,7 @@ export default function Console() {
 		setQuery(event.target.value);
 
 	const stopReplay = () => {
-		setReplayIndex(-1);
+		stopReplaying();
 		setNarrating(false);
 	};
 
@@ -135,8 +137,10 @@ export default function Console() {
 													width={20}
 													height={20}
 													onClick={() => {
-														if (log.content.index)
+														if (log.content.index) {
 															setReplayIndex(log.content.index);
+															startReplaying();
+														}
 													}}
 												/>
 											)}
