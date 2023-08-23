@@ -256,9 +256,9 @@ export const AppStore: AppStoreInterface = (
 		set({ background });
 	},
 	sendBackgroundImagePrompt: async ({ chatLogs }: { chatLogs: ChatLog[] }) => {
-		const { setBackgroundImage } = get();
+		const { setBackgroundImage, character } = get();
 
-		const background = await getBackgroundImage({ chatLogs });
+		const background = await getBackgroundImage({ chatLogs, character });
 
 		setBackgroundImage(background);
 

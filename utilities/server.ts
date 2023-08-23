@@ -112,12 +112,16 @@ export const storyPromptRequest = async ({
 	return response;
 };
 
-export const getBackgroundImage = async ({ chatLogs }: GetImageParams) => {
+export const getBackgroundImage = async ({
+	chatLogs,
+	character,
+}: GetImageParams) => {
 	const image = await api({
 		endpoint: '/chronicles/image',
 		method: 'POST',
 		body: {
 			chatLogs,
+			character,
 			width: 1024,
 			height: 768,
 		},

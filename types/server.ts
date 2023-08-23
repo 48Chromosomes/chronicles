@@ -20,5 +20,6 @@ export type StoryPromptParams = {
 
 export type GetImageParams = {
 	chatLogs?: ChatLog[];
+	character?: Character;
 	prompt?: string;
 };
