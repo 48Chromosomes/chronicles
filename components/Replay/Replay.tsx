@@ -39,7 +39,7 @@ export default function Replay() {
 					await narrationEnd();
 				} else {
 					const story = playLog.content.story.replace(
-						'Tag @48 Chronicles in the livechat with your next move - anyone is welcome to play',
+						'Tag @48 Chronicles in the YouTube livechat with your next move - anyone is welcome to play',
 						'',
 					);
 
