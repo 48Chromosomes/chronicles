@@ -48,7 +48,7 @@ export default function Narrator() {
 
 					const audio = new Audio(url);
 
-					audio.volume = 0.5;
+					audio.volume = 1;
 
 					audio.onended = () => {
 						setFadeNarration(true);
